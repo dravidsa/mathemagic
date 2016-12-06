@@ -1,0 +1,41 @@
+<ion-view title="Test Results " id="page9" class=" ">
+    
+		
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<ion-view title="Test Results" id="page9" class=" ">
+   <ion-content padding="true" class="has-header">
+        <form id="Test-Results-form9" class="list ">
+
+		
+<body> 
+ <div class="row header">
+          <div class="col"><p class="item positive">Question No</p></div>
+          <div class="col"><p class="item positive">Status</p></div>
+		  <div class="col"><p class="item positive">Marks</p></div>
+		
+               
+       
+        </div>
+        <div class="row" ng-repeat="item in quiz">
+          <div class="col"><p class="item royal" >{{item.question_no }}</p></div>
+		  <div class="col" ng-if="item.userSelection ==item.correct" > <p class="item balanced" >Correct</p><i class="icon ios-checkbox-outline" ></i></div>
+		  <div class="col" ng-if="item.userSelection !=item.correct"><i class="icon ios-close-outline"><p class="item assertive">Incorrect</p></i></div>
+          <div class="col" ng-if="item.userSelection ==item.correct"><p class="item balanced">{{item.marks}}</p> </div>
+		  <div class="col" ng-if="item.userSelection !=item.correct"><p class="item assertive">0</p></div> 
+      
+        </div>
+
+
+Total Questions = {{ total_questions }}
+Correct Answers = {{ correct_answers }}
+Total Marks = {{ total_marks }}
+   <button id="testResultsy-button15" class=" button button-positive  button-block ">Submit Test</button>
+    </ion-content>
+	</body>
+	
+</ion-view>
+
+
+        

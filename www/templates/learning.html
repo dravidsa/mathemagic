@@ -1,0 +1,12 @@
+<ion-view title="My Courses" style="background-color:#E6EAF0;"  id="page14" class=" ">
+    <ion-content padding="true" class="has-header">
+        
+			
+			<ion-list>
+  <ion-item ng-repeat="item in courses">
+  <ion-item class="balanced  " id= {{item.courseid}} ui-sref=testList({courseid:item.id})>   {{item.name}}</ion-item>
+  </ion-item>
+</ion-list>
+           
+    </ion-content>
+</ion-view>

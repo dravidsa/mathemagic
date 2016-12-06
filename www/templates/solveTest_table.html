@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html>
+<meta name=viewport content="width=device-width, initial-scale=1">
+
+<ion-view title="Solve Test " id="page7" style="background-color:#E6EAF0;"  class=" ">
+    <ion-content padding="true" class="has-header">
+        <form id="solveTest-form7" class="list ">
+		
+		
+
+
+<style> 
+body {
+    background-color: linen;
+	 overflow-x: hidden;
+}
+
+h1 {
+    color: maroon;
+    margin-left: 40px;
+	
+
+img {
+max-width : 100% ; 
+max-height : 75% ; 
+
+}
+} 
+</style>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<body>
+
+<div id=""quiz" ng-app=myApp" ng-controller="quizCtrl">
+
+<table   border="1">
+<tr><TD class="balanced">Question : <p ng-bind-html="quiz[currentQuestion-1].id" > </p></TD><TD><p ng-bind-html="quiz[currentQuestion-1].text" ></p> </TD> </TR> 
+
+<tr><TD><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="1"></TD> <TD><label for "currentQuestion"><div ng-bind-html="quiz[currentQuestion-1].ans1" </div> </TD> </tr>
+<tr><TD><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="2"></TD> <TD><label for "currentQuestion"><div ng-bind-html="quiz[currentQuestion-1].ans2" </div> </TD>     </tr>
+<tr><TD><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="3"></TD> <TD><label for "currentQuestion"><div ng-bind-html="quiz[currentQuestion-1].ans3" </div> </TD>    </tr>
+<tr><TD><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="4"></TD> <TD><label for "currentQuestion"><div ng-bind-html="quiz[currentQuestion-1].ans4" </div> </TD>     </tr>
+</table>
+
+	
+	<button ng-disabled="currentQuestion==1" onclick=getQuestion("prev")>Prev</button>
+	<button ng-disabled="currentQuestion==4" onclick=getQuestion("next")>Next</button>
+	<button ng-disabled="currentQuestion< 4" onclick=submitQuiz()>Submit</button>
+
+</div> 	
+
+<script>
+
+
+
+
+
+
+//end 
+
+
+    </ion-content>
+</ion-view>
+</body>
+</html>

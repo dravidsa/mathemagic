@@ -1,0 +1,11 @@
+<ion-view title="My Tests" id="page14" class=" ">
+    <ion-content padding="true" class="has-header">
+       
+			<ion-list>
+  <ion-item ng-repeat="item in tests">
+  <ion-item class="balanced  " id= {{item.id}}}  ui-sref="solveTest({quizid : item.id , currentQuestion : 0 })">   {{item.name}}</ion-item>
+  </ion-item>
+</ion-list>
+           
+    </ion-content>
+</ion-view>

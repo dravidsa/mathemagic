@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<ion-view title="Solve Test " id="page7" style="background-color:#E6EAF0;"  class=" ">
+    <ion-content padding="true" class="has-header">
+        <form id="solveTest-form7" class="list ">
+		
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<body>
+
+<div id=""quiz" ng-app=myApp" ng-controller="quizCtrl">
+
+<font size= 5>
+
+
+
+
+<ion-list> 
+<ion-item>
+<ion-item class="balanced  " >Question - {{currentQuestion}} : </ion-item> 
+<ion-item class="balanced  " ><div ng-bind-html="quiz[currentQuestion-1].text" ></div> </ion-item> 
+<ion-item class="balanced  " ><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="1"> <div ng-bind-html="quiz[currentQuestion-1].ans1" ></div> </ion-item>
+<ion-item class="balanced  " ><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="2"> <div ng-bind-html="quiz[currentQuestion-1].ans2" ></div>  </ion-item>
+<ion-item class="balanced  " ><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="3"> <div ng-bind-html="quiz[currentQuestion-1].ans3" ></div>  </ion-item>
+<ion-item class="balanced  " ><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="4"> <div ng-bind-html="quiz[currentQuestion-1].ans4" ></div> </ion-item>
+  
+
+  </ion-list>
+  
+  
+	
+	<button ng-disabled="currentQuestion==1" ng-click=getQuestion("prev")>Prev</button>
+	<button ng-disabled="currentQuestion==40" ng-click=getQuestion("next")>Next</button>
+	<button ng-disabled="currentQuestion< 4" ng-click=submitQuiz()>Submit</button>
+
+</font> 	
+</div>
+
+
+
+      
+    </ion-content>
+</ion-view>
+</body>
+</html>

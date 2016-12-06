@@ -1,0 +1,105 @@
+<<!DOCTYPE html>
+<html>
+<head>
+    <title>Card &ndash; the better way to collect credit cards</title>
+    <meta name="viewport" content="initial-scale=1">
+</head>
+<body>
+<script src="card11212.js"></script>
+    <script>
+	console.log( " here in in js") ; 
+        new Card({
+            form: document.querySelector('form'),
+            container: '.card-wrapper'
+        });
+    </script>
+	
+    <style>
+        .demo-container {
+            width: 100%;
+            max-width: 350px;
+            margin: 50px auto;
+        }
+
+        form {
+            margin: 30px;
+        }
+        input {
+            width: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+
+    </style>
+ <div class="row"> 
+ <div class="col"> 
+ 
+	<div class="card">
+<div class="item item-divider">
+Product Selected
+</div>
+<div class="list">
+   <div class="item" ng-model="paymentData.prodname" >Product : {{prodname}} </div>
+   <div class="item" ng-model="paymentData.orderAmount">Order Amount        :  {{orderAmount}} </div>
+   
+</div> 
+</div>
+
+</div>
+<div class="col"> 
+<div class="card">
+<div class="item item-divider">
+
+User Details 
+</div>
+<div class="list">
+   <div class="item" ng-model="paymentData.username" > Username : {{username}} </div>
+   <div class="item" ng-model="paymentData.email"> Email :  {{email}} </div>
+   
+  
+</div> 
+
+</div> 
+</div> 
+</div> 
+
+
+<div class="card">
+<div class="item item-divider">
+Order Details 
+</div>
+
+   <div class="item" ng-model="paymentData.IPMOrderNo"> IPM Order No :  {{IPMOrderNo}} </div>
+   <div class="item" ng-model="paymentData.orderStatus"> Order Status :  {{orderStatus}} </div>
+   
+</div>
+</div> 
+
+
+	<div class="card">
+<div class="item item-divider">
+Credit / Debit Card Details 
+
+</div>
+
+    <div class="demo-container">
+        <div class="card-wrapper"></div>
+
+        <div class="form-container active">
+            
+                <input placeholder="Card number" type="text" name="paymentData.card_number">
+                <input placeholder="Full name" type="text" name="paymentData.name">
+                <input placeholder="MM/YY" type="text" name="paymentData.expiry">
+                <input placeholder="CVC" type="text" name="paymentData.cvc">
+          
+        </div>
+    </div>
+	</div>
+	<div class="padding">
+<button class="button button-block button-positive" ng-click="makePayment(paymentData)" >Submit</div>
+</div>  
+
+
+    
+</body>
+</html>

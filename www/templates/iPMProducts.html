@@ -1,0 +1,24 @@
+<ion-view title="IPM Products" id="page14" class=" ">
+    <ion-content padding="true" class="has-header">
+       
+			<ion-list>
+		
+  <ion-item ng-repeat="item in products">
+  
+			<ion-item class="balanced  " id= {{item.id}}}  ui-sref="orderDetails({prodid : item.id ,prodname : item.product_name , price: item.price   })" >   {{item.product_name}}</ion-item>
+			
+		
+		<ion-item class="assertive"> Price : {{ item.price}} </ion-item> 
+
+
+	
+
+		
+   
+  </ion-item>
+</ion-list>
+           
+    </ion-content>
+
+
+</ion-view>

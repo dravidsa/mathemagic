@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<ion-view title="Solve Test " id="page7" style="background-color:#E6EAF0;"  class=" ">
+    <ion-content padding="true" class="has-header">
+        <form id="solveTest-form7" class="list ">
+		
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<body>
+
+<div id=""quiz" ng-app=myApp" ng-controller="quizCtrl">
+
+<font size= 5>
+
+<style>
+.col{
+
+border: thin  solid black;
+}
+
+</style>
+
+
+<div class = "row responsive-sm">
+   <div class = "col col-10 balanced ">Q: {{currentQuestion}} :</div>
+   <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].text" ></div> </div>
+   </div>
+   
+   <div class = "row responsive-sm">
+   <div class = "col col-10 balanced "><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="1"> </div>
+   <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].ans1" ></div> </div>
+   </div>
+
+   <div class = "row responsive-sm">
+   <div class = "col col-10 balanced "><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="2"></div>
+   <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].ans2" ></div> </div>
+   </div>
+
+   <div class = "row responsive-sm">
+   <div class = "col col-10 balanced "><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="3"></div>
+   <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].ans3" ></div></div>
+   </div>
+   
+   <div class = "row responsive-sm">
+   <div class = "col col-10 balanced "><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="4"></div>
+   <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].ans4" > </div></div>
+   </div>
+
+
+<BR/>
+
+  
+   <div class = "row responsive-sm">
+   <div class = "col balanced "><button ng-disabled="currentQuestion==1" ng-click=getQuestion("prev")>Prev Question</button></div>
+   <div class = "col balanced" align="right" ><button ng-disabled="currentQuestion==40" ng-click=getQuestion("next")>Next Question </button></div>
+
+  </div> 
+  
+	
+	  <a  ng-click=submitQuiz() class=" button button-positive button-large button-block icon-left ion-android-bus ">Submit Test</a>
+	  
+
+
+</font> 	
+</div>
+
+
+
+      
+    </ion-content>
+</ion-view>
+</body>
+</html>

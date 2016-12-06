@@ -1,0 +1,12 @@
+<ion-view title="School List" id="page14" class=" ">
+    <ion-content padding="true" class="has-header">
+       
+	  No of schools  {{schools.length}}
+			<ion-list>
+  <ion-item ng-repeat="item in schools">
+  <ion-item class="balanced  " id= {{item.id}}}  ng-click="setSchool(item.school_name)" >   {{item.school_name}},{{item.school_address}} ,{{item.school_city}} </ion-item>
+  </ion-item>
+</ion-list>
+           
+    </ion-content>
+</ion-view>
