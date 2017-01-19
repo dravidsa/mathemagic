@@ -1,6 +1,20 @@
 angular.module('app.controllers', ['ngSanitize'])
         
-.controller("quizCtrl",  function($scope, $rootScope , Quiz,$http, $state,$stateParams) {
+.controller("quizCtrl",  function($scope, $rootScope , Quiz,$http, $state,$stateParams ,$ionicHistory,$sce) {
+	
+	
+	if ( $rootScope.userModel.isLogIn ==false  ) {
+		console.log( "not logged in ") ; 
+		$state.go("login") ; 
+		return;
+		
+		
+	}
+	//$cordovaScreenOrientation.lockOrientation('landscape') ; 
+	
+    //$scope.mode = "normal"; 
+	
+    $scope.mode = "checking"; 
 	
     $scope.myText = "My name is: <h1>John Doe</h1>";
 	$scope.currentQuestion = 1 ; 
@@ -8,6 +22,13 @@ angular.module('app.controllers', ['ngSanitize'])
 	$scope.quiz =[];
 	$scope.quizid = $stateParams.quizid;
 	$scope.currentQuestion = $stateParams.currentQuestion;
+	$scope.mode = $stateParams.mode;
+	$scope.quizName = $stateParams.quizName ; 
+	
+	
+
+ 
+	
 	console.log( "current question is " + $scope.currentQuestion + "scope length " + $scope.quiz.length) ; 
 	//console.log("q is" + $scope.quiz[$scope.quiz[currentQuestion-1].text )
 if ($scope.currentQuestion == 0 ) { 
@@ -42,6 +63,12 @@ $scope.quiz = $rootScope.quiz ;
 console.log( "current question is "+ $scope.quiz[$scope.currentQuestion]) ; 
 
 }
+	/*
+	if ( $scope.quiz[$scope.currentQuestion].flagged == true ) 
+	$scope.flagMessage = " This question is flagged " ; 
+	else 
+		$scope.flagMessage = " This question is not flagged "
+	*/
 	
 	
 	/*
@@ -71,7 +98,11 @@ console.log("current q is " + qno  + " quiz  is "  + $scope.quiz[0].id  ) ;
 			}
 			*/
 			
-			
+
+$scope.sanitizeMe = function(text) {
+    return $sce.trustAsHtml(text)
+};
+
  
 $scope.showQuestions = function (qno){
 
@@ -95,6 +126,14 @@ $scope.getQuestion = function (qtype ) {
 	if ( qtype == 'next')  incr = 1 ; 
 	else incr = -1 ; 
 	 $scope.currentQuestion = parseInt($scope.currentQuestion) + incr  ;
+	 
+	 if ( $scope.quiz[$scope.currentQuestion].flagged == true ) 
+	$scope.flagMessage = " This question is flagged " ; 
+	else 
+		$scope.flagMessage = " This question is not flagged "
+	 
+	 
+	 
 	 /*
 	scope.$apply(function(){
  
@@ -129,6 +168,26 @@ $state.go('mathemagic.results');
 //window.location  = "templates/testSummary.html"  ; 
 }
 
+$scope.goBack = function() {
+	console.log( " going back" + $ionicHistory.currentStateName()); 
+	$ionicHistory.goBack(); 
+	
+	
+	//console.log("back view is " .$ionicHistory.backView().stateName); 
+}
+
+$scope.flagQuestion = function(flag){
+	console.log( "flag is " + flag ) ; 
+	
+	if ( flag == 'true' ) {
+	$scope.flagMessage = "This question is flagged " ; 
+	$scope.quiz[$scope.currentQuestion-1].flagged = true ;  }
+	else 
+	{
+		$scope.flagMessage = "This question is not flagged " ; 
+	$scope.quiz[$scope.currentQuestion-1].flagged = false ;  }
+	
+}
 
 /*
 jQuery(document).ready(function($) {
@@ -209,7 +268,7 @@ scope.currentQuestion = question_no ;
 
 })
 
-.controller('resultsCtrl', function($scope , $rootScope ) {
+.controller('resultsCtrl', function($scope , $rootScope ,$state  ) {
 	console.log( " in resultsCntrl") ; 
 	$scope.quiz = $rootScope.quiz ; 
 	console.log( "quiz is " + $scope.total_marks + "-" + $scope.correct_answers ) ; 
@@ -234,7 +293,11 @@ scope.currentQuestion = question_no ;
 	
 	$scope.calculateMarks() ; 
 	 
-	 
+	$scope.gotoTests = function ()  {
+		
+		console.log( "going to test home ") ;
+		$state.go("tab.learning"); 
+	}	
 
 })
 
@@ -285,12 +348,15 @@ scope.currentQuestion = question_no ;
 
             //$scope.$parent.showProcessing();
             Login.execute(loginData).then(function (data) {
-                console.log("resp is " + data);
+                console.log("resp is " + data.id + data.username + data.email);
                 //data = data[0];
-                if (data  >  0) {
+                if (data.id  >  0) {
                     console.log( "here in success ") ; 
                     $rootScope.userModel.isLogIn = true;
-                    $rootScope.userModel.userid = data;
+                    $rootScope.userModel.userid = data.id ;
+					$rootScope.userModel.username = data.username ; 
+					$rootScope.userModel.email = data.email; 
+					
                     
                     $scope.userModel.isLogIn = true ;
 
@@ -317,7 +383,7 @@ scope.currentQuestion = question_no ;
 					//$scope.hide($ionicLoading);  
 					//ionicLoading.hide() ; 
                     // $location.path('learning');
-                    $state.go('learning'); 
+                    $state.go('tab.buy'); 
                     // $route.routes[null];
                    //$
 					 
@@ -355,11 +421,34 @@ scope.currentQuestion = question_no ;
 
         $scope.showRegister = function()
         {
-            $state.go('app.register');
+            $state.go('register');
         }
     })
 
-		
+
+.controller('LogoutCtrl',  function ($scope, $location,$rootScope,$localstorage,$state) {
+      console.log ( "in logout controller") ; 
+       
+        $scope.Logout = function( ) {
+        console.log('logging out now ') ; 
+            
+            $rootScope.userModel.isLogIn = false ; 
+            $rootScope.userModel.username = ''; 
+			$rootScope.userModel.userid = 0; 
+			$scope.userModel.isLogIn = false ; 
+			
+			
+			//$location.path('/login') ; 
+            //$state.go("app.login") ; 
+			$localstorage.setObject('userModel', $rootScope.userModel);
+            $state.go('login'); 
+        }
+
+          })
+		  
+
+
+	
 .controller('signupCtrl', function($scope) {
 
 })
@@ -372,13 +461,27 @@ scope.currentQuestion = question_no ;
    
 
    
-.controller('productsCtrl', function($scope,$rootScope , Products,$http)  {
+.controller('productsCtrl', function($scope,$rootScope , $state, Products,$http)  {
 	
+	
+	if ( $rootScope.userModel.isLogIn ==false  ) {
+		console.log( "not logged in ") ; 
+		$state.go("login") ; 
+		return;
+		
+		
+	}
+	
+	
+  //window.screen.lockOrientation('portrait') ; 
+   $scope.userModel  = $rootScope.userModel ; 
+   
+
 	$scope.productsData ={} ; 
 	
 	$scope.productsData.status = "Confirmed" ; 
 	Products.execute ( $scope.productsData.status) .then(function (data) { 
-	console.log( " got products " + data ) ; 
+	console.log( " got products " + JSON.stringify(data) ) ; 
 	$scope.products = data ; 
 	
 	
@@ -388,8 +491,19 @@ scope.currentQuestion = question_no ;
 })
    
 .controller('learningCtrl', function($scope,$rootScope , Courses,$http, $state) {
+	//console.log( "showing products for " + $rootScope.userModel.username ) ; 
 	
-	  var username = 'sandra' ; 
+	if ( $rootScope.userModel.isLogIn == false  )
+	{
+		
+		console.log( " not logged in ") ; 
+		$state.go ( "login") ; 
+return ; 
+	}
+
+	var username =  $rootScope.userModel.username ; 
+	//var username = "sandra" ; 
+		console.log( "username from root is  " + $rootScope.userModel.username ) ;  
 	Courses.execute( username ).then(function (data) { 
 	console.log( "got data " +data )  ; 
 	$scope.courses= data ; 
@@ -426,216 +540,424 @@ scope.currentQuestion = question_no ;
 
 
    
-.controller('orderDetailsCtrl', function($scope,$rootScope , Schools, SaveOrder , $http, $state,$stateParams ) {
+.controller('orderDetailsCtrl', function($scope,$rootScope , Schools, SaveOrder , Billing, $http, $state,$stateParams,$ionicLoading , $cordovaInAppBrowser ) {
 console.log( " in orderDetails") ; 
 $scope.errorMessage = "All data on this form is mandatory" ; 
-$scope.states = [ 
-	
-	{
-		id: "MH",
-		state:"Maharashtra"
-	},
-	{
-		id: "AP",
-		state:"Andhra Pradesh"
-	},
-	{
-		id: "AR",
-		state:"Arunachal Pradesh"
-	},
-	{
-		id: "AS",
-		state:"Assam"
-	},
-	{
-		id: "BR",
-		state:"Bihar"
-	},
-	{
-		id: "CG",
-		state:"Chattisgarh"
-	},
-	{
-		id: "DN",
-		state:"Dadra Nagar and Haveli"
-	},
-	{
-		id: "GA",
-		state:"GOA"
-	},
-	{
-		id: "GJ",
-		state:"Gujrat"
-	},
-	{	id: "HR",
-		state:"Haryana"
-	},
-	{   id: "HP",
-		state:"Himachal Pradesh"
-	},
-	{   id: "JK",
-		state:"Jammu and Kashmir"
-	},
-	{ 	id: "JH",
-		state:"Jharkhand"
-	},
-	{   id: "KA",
-		state:"Karnataka"
-	},
-	{
-		id: "KL",
-		state:"Kerala"
-	},
-	{	id: "MP",
-		state:"Madhya Pradesh"
-	},
-	{   id: "MN",
-		state:"Manipur"
-	},
-	{   id: "ML",
-		state:"Meghalaya"
-	},
-	{   id: "MZ",
-		state:"Mizoram"
-	},
-	{   id: "NL",
-		state:"Nagaland"
-	},
-	{   id: "OR",
-		state:"ORISSA"
-	},
-	{   id: "PB",
-		state:"Punjab"
-	},
-	{
-		id: "PY",
-		state:"Pondecherry"
-	},
-	{   id: "RJ",
-		state:"Rajashtan"
-	},
-	{   id: "SK",
-		state:"Sikkim"
-	},
-	{   id: "TN",
-		state:"Tamilnadu"
-	},
-	{   id: "TR",
-		state:"Tripura"
-	},
-	{   id: "UP",
-		state:"Uttar Pradesh"
-	},
-	{   id: "WB",
-		state:"West Bengal"
-	} 
-	
-	] ; 
+$scope.orderData = "" ; 
+//$scope.orderData.school_name  = ""; 
+
+$scope.states = 
+[{"id": 408,"state": "Andaman & Nicobar Islands"}, {"id": 409,"state": "Andhra Pradesh"}, {"id": 410,"state": "Arunachal Pradesh"}, {"id": 411,"state": "Assam"}, {"id": 412,"state": "Bihar"}, {"id": 413,"state": "Chandigarh"}, {"id": 414,"state": "Chhatisgarh"}, 
+{"id": 415,"state": "Dadra & Nagar Haveli"}, {"id": 416,"state": "Daman & Diu"}, {"id": 417,"state": "Delhi"}, {"id": 418,"state": "Goa"}, {"id": 419,"state": "Gujarat"}, 
+{"id": 420,"state": "Haryana"}, {"id": 421,"state": "Himachal Pradesh"}, {"id": 422,"state": "Jammu & Kashmir"}, {"id": 423,"state": "Jharkhand"}, {"id": 424,"state": "Karnataka"},
+ {"id": 425,"state": "Kerala"}, {"id": 426,"state": "Lakshadweep"}, {"id": 427,"state": "Madhya Pradesh"},  {"id": 429,"state": "Manipur"},
+ {"id": 430,"state": "Meghalaya"}, {"id": 431,"state": "Mizoram"}, {"id": 432,"state": "Nagaland"}, {"id": 433,"state": "Orissa"}, {"id": 434,"state": "Pondicherry"}, 
+ {"id": 435,"state": "Punjab"}, {"id": 436,"state": "Rajasthan"}, {"id": 437,"state": "Sikkim"}, {"id": 438,"state": "Tamil Nadu"}, {"id": 439,"state": "Tripura"},
+ {"id": 440,"state": "Uttaranchal"}, {"id": 441,"state": "Uttar Pradesh"}, {"id": 442,"state": "West Bengal"}]
+
  
-$scope.orderData = [] ; 
-$scope.orderData.studentname = "" ; 
-$scope.orderData.school_name = "" ; 
-$scope.orderData.birthDate = "" ; 
-$scope.orderData.medium = "" ; 
-$scope.orderData.gender = "" ; 
+  $scope.orderData = {
+            billingname: "",
+            address: "" , 
+			city : "" ,
+			pincode: "" ,
+			phone : "" 
+        }
+		
+//$scope.orderData = [] ; 
 
 
-$scope.username = "sandra" ; 
-$scope.email = "dravidsa@hotmail.com" ; 
+$scope.username =  $rootScope.userModel.username ; 
+$scope.email =  $rootScope.userModel.mail  ; 
+
+console.log( "getting billing data for userid " + $rootScope.userModel.userid ); 
+
+Billing.execute( $rootScope.userModel.username).then(function (data) { 
+
+if ( data.length ==0 ){ 
+
+console.log( "no billing data found "); 
+
+}
+else 
+{
+	
+	console.log( "found prev billing data " + data[0].address ) ; 
+	$scope.billingMessage ="Last billing address" ; 
+	$scope.orderData.billingname = data[0].name   ; 
+$scope.orderData.address = data[0].address ; 
+$scope.orderData.city = data[0].city ; 
+$scope.orderData.phone = parseInt(data[0].phone) ; 
+$scope.orderData.pincode = parseInt(data[0].pinCode) ; 
+$scope.orderData.state = data[0].state  ; 	
+}
 
 
 
-$scope.test_var = -1234 ; 
- prodid = $stateParams.prodid;
+});
+
+
+
+
+
+if (  $stateParams.prodid != "" ) { $scope.prodid =$stateParams.prodid ;  }
   $scope.prodname = $stateParams.prodname;
-			console.log( " got prod id " + $stateParams.prodid) ; 
+			
 			 $scope.price = $stateParams.price;
 			 
-			 $scope.orderData.prodname = $scope.prodname ; 
-			 $scope.orderData.orderAmount = $scope.price ; 
+			 console.log( " got prod id " + $stateParams.prodid) ; 
+			 //$scope.orderData.prodid = $scope.prodid ; 
+			// $scope.orderData.prodname = $scope.prodname ; 
+			 //$scope.orderData.orderAmount = $scope.price ; 
 			 //$scope.orderData.username = $scope.username ; 
 			 //$scope.orderData.email = $scope.email ; 
 			
 			
 console.log( " and name is " + $stateParams.prodname ) ; 
 
-if ( prodid == "") { 
+if ( $stateParams.prodid  == "") { 
 console.log( "came from school list " + $rootScope.orderData) ; 
 $scope.orderData = $rootScope.orderData ; 
+$scope.prodname  = $rootScope.prodname  ;
+//$scope.price = $rootScope.price ; 
+$scope.prodid = $rootScope.prodid; 
+$scope.prodname = $rootScope.prodname ; 
+$scope.price = $rootScope.price ;  
+
+console.log( "settins chool name " + $rootScope.school_name ) ; 
+
+$scope.orderData.school_name = $rootScope.school_name ; 
+
+$scope.school_name = $rootScope.school_name; 
+
 }
-else { 
-			if (( prodid == 1) || ( prodid == 3 )) 
+
+			if (( $scope.prodid == 1) || ( $scope.prodid == 2 )) 
 			{ $scope.shipping = true ;  console.log( "shipping is needed ") ; } 
 			else  { $scope.shipping = false ;   console.log( "shipping is  not needed ") ; } 
-} 
+			
+			if (( $scope.prodid ==2 ) || ( $scope.prodid == 3 ) || ( $scope.prodid == 5 )) 
+			{
+				$scope.student = true ; console.log( "student details needed ") ; 
+			} else { $scope.student = false ; console.log( "student not needed ") ; 
+			}
+ 
 	
 	$scope.showSchools = function (order ) {
-	console.log("in show schools for " + order.school_name); 
+		
+		
+
+	console.log("in show schools for " +order.school_name  + "prod is " + $scope.prodid ); 
+	
+	
 	$rootScope.orderData = order ; 
+	$rootScope.prodid = $scope.prodid ; 
+	$rootScope.prodname = $scope.prodname ; 
+	$rootScope.price = $scope.price  ;  
+	
+	
+	//console.log( " put prod to rootScope" .$rootScope.prodid ) ; 
+	
 	//$scope.school_name = school_name;    
 	//console.log( "gender " + $scope.orderData.gender  + "medium " + $scope.orderData.medium + "name" + $scope.orderData.prodname + " price" + $scope.orderData.price  +  "school" + $scope.orderData.school_name	) ; 
-	Schools.execute( order.school_name ).then(function (data) { 
-
-	$scope.schools= data;
+	
+	/*
+	
+		$http.get('schools.json').success(function (data){
+				console.log( "got data " + data ) ; 
+		$scope.schools = data;
 		
-	$rootScope.schools = data ; 
-	 console.log( "got data for records " + $scope.schools.length   )  ; 
+		//$rootScope.schools = data ; 
+		
+	 //console.log( "got data for records " + JSON.stringify(data)   )  ; 
 	 
 	 //$rootScope.orderData = $scope.orderData ; 
 	 
 	 console.log( "setting rootscope " ) ; 
+	 $scope.hide() ; 
+	 
+	$state.go('schoolList'); 
+	
+	});
+	
+	*/
+	
+	console.log( "json order is " +  JSON.stringify(order)) ; 
+	
+	
+	$scope.show() ; 
+	
+	console.log("looking for " + order.school_name ); 
+	Schools.execute(order.school_name ).then(function (data) { 
+
+	$scope.schools= data;
+		
+	$rootScope.schools = data ; 
+	// console.log( "got data for records " + JSON.stringify(data)   )  ; 
+	 
+	 //$rootScope.orderData = $scope.orderData ; 
+	 
+	 console.log( "setting rootscope " ) ; 
+	 $scope.hide() ; 
+	 
 	$state.go('schoolList'); 
 	
 	
 	
 	}) ; 
+	
+
+	
 	};
+	
+	
+	//form posting in inappbrowser related 
+	
+	 function iabLoadStart(event) {
+   
+    }
+
+    function iabLoadStop(event) {
+    alert(event.type + ' - ' + event.url);
+    }
+
+    function iabLoadError(event) {
+    alert(event.type + ' - ' + event.message);
+    }
+
+    function iabClose(event) {
+    alert(event.type);
+    iabRef.removeEventListener('loadstart', iabLoadStart);
+    iabRef.removeEventListener('loadstop', iabLoadStop);
+    iabRef.removeEventListener('loaderror', iabLoadError);
+    iabRef.removeEventListener('exit', iabClose);
+    }
+    // device APIs are available
+
+    function showEBS(orderData) {
+		
+		console.log( "in show EBS ") ; 
+    //form.submit();   
+   var order_no =$rootScope.order_no ; 
+   var amount  = orderData.amount  ; 
+   
+   var name= orderData.billingname  ; 
+   
+   var address = orderData.address  ; 
+   var city  = orderData.city  ; 
+   var postal_code  = orderData.pincode  ; 
+   var phone = orderData.phone ;  
+    var email  = $rootScope.userModel.email  ; 
+	  var phone  =orderData.phone  ; 
+   
+   ref =  window.open("templates/payment.html?amount="+ amount +"&order_no=" + order_no + "&name="+name+"&address="+address+"&city=" +city+"&postal_code="+postal_code+"&email="+email +"&phone="+phone, '_blank', 'location=no');
+   //ref.addEventListener('loadstart', function() {  /*alert ( 'in loadstart') */ }) ;
+   ref.addEventListener('loadstop', function() { 
+
+   ref.executeScript(
+        { code: "document.body.innerHTML" },
+        function( values ) {
+          //  alert( values[ 0 ] );
+		  var responseText = values[0] ; 
+		  //alert ( "exitting with>" + responseText+"<" ) ; 
+		  if ( responseText.includes("confirmed")) { 
+		  //alert ( responseText ) ;
+		  alert( " Thank You for your order. Your order is confirmed.") ; 
+			ref.close()		  ;
+
+		   $state.go('tab.orders') ; 
+		  
+		  }
+		  else {
+			   // alert( "Eror in processing your order . Your order has failed.") ; 
+		  }
+        }
+
+
+
+   )
+   });
+   ref.addEventListener('loadloaderror', function() {  alert ( 'Got some Error ');  $state.go('tab.buy') ;  });
+   ref.addEventListener('exit', function() {   });
+
+
+
+   
+   
+	
+
+     }
+	
+$scope.show1 = function() {
+        $ionicLoading.show({
+          template: '<p>Processing order ...</p><ion-spinner icon="android"></ion-spinner>'
+        });
+      };
+
+$scope.hide = function(){
+        $ionicLoading.hide();
+      }; 
+	  
+
+   $scope.openBrowser = function() {
+	   
+	 var options = {
+      location: 'yes',
+      clearcache: 'yes',
+      toolbar: 'no'
+   };
+   
+      $cordovaInAppBrowser.open('https://secure.ebs.in/pg/ma/payment/request', '_self', options)
+		
+      .then(function(event) {
+         // success
+      })
+		
+      .catch(function(event) {
+         // error
+      });
+   }
+
+   
+	
+	
+	
 	
 	$scope.saveOrder  = function(  orderData ){
 	console.log( "order data is " + $scope.prodname + "studentname " + orderData +"Scope order " ) ; 
-	orderData.IPMOrderNo = "160000123" ; 
-	orderData.orderStatus = "Pending" ; 
+	
+	if ( orderData =="" ) { console.log( " not going to save " ); return ; }
+	//orderData.IPMOrderNo = "160000123" ; 
+	//orderData.orderStatus = "Pending" ; 
+	orderData.prodname = $scope.prodname ; 
+	orderData.amount  =  $scope.price  ; 
+	orderData.userid = $rootScope.userModel.userid ; 
+	orderData.email = $rootScope.userModel.email ; 
+	orderData.school_code = $rootScope.school_code ; 
+	var shipping = 0 ; 
+	
+	if ( $scope.prodid == 1 )  {
+	 if  (( orderData.state = 428 ) || ( orderData.state == null ) ) 
+	 {  shipping = 125 ; } 
+	 else 
+		 shipping = 175 ; 
+	
+	
+	orderData.amount = parseInt($scope.price)  + parseInt(shipping)  ; 
+	}
+	
+	console.log( "date is " + orderData.birthDate) ; 
+
+ 	if ( ( $scope.prodid != 1 )  && ( $scope.prodid != 4) ) {
+	var month =orderData.birthDate.getMonth() + 1 ; 
+	var year = orderData.birthDate.getYear() + 1900 ; 
+	console.log( " month is " + month  + "year is " + year ) ; 
+	var dt = orderData.birthDate.getDate() + "-" + month  + "-" + year ; 
+
+		console.log( "date now is " + dt ) 
+	 orderData.birthDate = dt; 
 	 
-	$rootScope.orderData  = $scope.orderData ; 
+	console.log("school ocde is " + orderData.school_code  ) ; 
+	} 
+	
+	
+	
+	 console.log( " prod is " + orderData.prodname + " price is "  + $scope.price + "order amount is " + orderData.amount  ) ; 
+	// orderData.birthDate = '' ; 
+	 
+	 orderData.medium = "English" ; 
+	$rootScope.orderData  = $scope.orderData ;  
 	 var check = false ; 
 	check = $scope.validateData(orderData) ; 
 	if ( !check ) {  console.log( "not going ahread" ) ; return ; }
 	
+	$scope.show1(); 
 	
-	$state.go("payment") ; 
-	/*
 	SaveOrder.execute( orderData ).then(function (data) { 
 
 	console.log( " save order is " + data ) ; 
+	if ( data != '' )
+	{
+		$rootScope.order_no = data ;  
+		$rootScope.amount = $scope.price  ; 
+		$scope.hide() ; 
+        showEBS(orderData) ; 
+		console.log(" after ebs "); 
+		
+		
+		$state.go('tab.buy'); 
+		
+		
+		
+		 //$state.go("payment") ; 
+	}
+	else 
+	{
+		$scope.errorMessage = " Error while saving order" ; 
+	
+	}
 	}) ; 
-	
-	*/
-	
-	; 
-		
-		
 	}
 	
 	$scope.validateData = function( orderData ){
 	$scope.errorMessage  = ""; 
     var product = $scope.prodname ; 
+	
+	console.log( " in validate data  for " + product + "-" ) ; 
+	orderData.medium = "English"; 
+	
+	
 	if (( product == "IPM 2017 Exam Enrollment ") || ( product == "Supreme") || ( product == "Elearning"))
 	{
-		if ( ( orderData.studentname =="" ) || ( orderData.school_name == "" ) || ( orderData.birthDate == "" ) || ( orderData.gender ="" ) || ( orderData.medium == "" ))
+		if ( ( orderData.student_name =="" ) || ( orderData.school_name == "" ) || ( orderData.birthDate == "" ) || ( orderData.gender =="" ) || ( orderData.medium == "" ) || ( orderData.student_name == null) || ( orderData.school_name == null ) || ( orderData.birthDate == null ) || ( orderData.gender == null  ) || ( orderData.medium == null )  )
 		{
 			$scope.errorMessage = " All Student Details are mandatory for this product " ; 
-			console.log( "incomdplete data ")  ; 
+			console.log( "incomdplete student data ")  ; 
 			
 			return false ; 
 			
 		}
-		
 	}
+	 console.log( "checking billing ") ; 
+	 
+	 if ( (orderData.state =="" )  || ( orderData.state == null) ) { orderData.state = 428 ; }
+       if (  ( orderData.billingname == "") || ( orderData.address == "") || ( orderData.city =="" ) || ( orderData.pincode == "" ) || ( orderData.phone == "") || ( orderData.billingname == null ) || ( orderData.address == null ) || ( orderData.city == null  ) || ( orderData.pincode == null )  || ( orderData.phone == null )  ) {
+		   
+		  
+		   $scope.errorMessage = " All Billing  Details are mandatory for all products " ; 
+			console.log( "incomdplete billing  data ")  ; 
+			return false ; 
+	   }		
+	   
+	   if (( orderData.standard == "" ) || ( orderData.standard == null ) ) {
+		   
+		   $scope.errorMessage = " Standard is mandatory for all products " ; 
+		   console.log( "incomdplete standard  ")  ; 
+			return false ; 
+	   }
+	 
+	 
+	  if   ( angular.isNumber(orderData.phone) == false )    {
+		  $scope.errorMessage = "Please enter Nummeric phone number " ; 
+		   console.log( "non numeric phone   -" +   orderData.phone + "-" )  ; 
+			return false ; 
+		  
+	  }
+	  
+	   if   (angular.isNumber (orderData.pincode ) == false)    {
+		  $scope.errorMessage = "Please enter Nummeric pincode  " ; 
+		   console.log( "non numeric pincode   -"+ orderData.pincode + "-")  ; 
+			return false ; 
+		  
+	  }
+      return true ; 
+	  
+	
 		
 	}
 	
 	$scope.showDate  = function()  { 
-	console.log("in showdate"); 
+	console.log("in showdate");
 	
 	 var ipObj1 = {
       callback: function (val) {  //Mandatory
@@ -651,37 +973,189 @@ else {
     
 	
 	
-	} 
+	}
+
+
+$scope.show = function() {
+        $ionicLoading.show({
+          template: '<p>Loading Schools ...</p><ion-spinner icon="android"></ion-spinner>'
+        });
+      };
+
+      $scope.hide = function(){
+        $ionicLoading.hide();
+      }; 
+	  
 			
 })
 
-.controller('schoolListCtrl', function($scope , $rootScope,$http , $state) {
-$scope.schools = $rootScope.schools ; 
-console.log( " in schoolListCtrl" + $scope.schools ); 
+.controller('PaymentCtrl', function($scope , $rootScope,$http ,  $state,$ionicLoading) {
+	
+	console.log( "in payment Controller") ; 
+	var orderData = $rootScope.orderData; 
+	console.log( "amount is " + orderData.amount ) ; 
+	
+	
+	
+	
+})
+
+
+
+.controller('schoolListCtrl', function($scope , $rootScope,$http , Schools,  $state,$ionicLoading) {
+	
+	
+	$scope.show = function() {
+        $ionicLoading.show({
+          template: '<p>Loading Schools ...</p><ion-spinner icon="android"></ion-spinner>'
+        });
+      };
+
+      $scope.hide = function(){
+        $ionicLoading.hide();
+      }; 
+	  
+	  
+	
+
+
+ $scope.schools = $rootScope.schools ; 
+//console.log( " in schoolListCtrl" + $scope.schools ); 
 //console.log( " school contains "+ $scope.schools.length+"records") ; 
-$scope.setSchool = function (school_name ){
+$scope.setSchool = function (school_code , school_name ){
 	
 	$rootScope.school_name  = school_name ;
-	console.log("setting school name to " + school_name ) ; 
+	$rootScope.school_code = school_code; 
+	
+	console.log("setting school name to " + school_name  + "school code is " + school_code ) ; 
 	$state.go("orderDetails"); 
 	
 	
 	
 }
 
+
+
+	  
+
 })
-   
+
+.controller('studentServicesCtrl', function($scope , $rootScope , $http , $state) {
+
+if ( $rootScope.userModel.isLogIn ==false  ) {
+		console.log( "not logged in ") ; 
+		$state.go("login") ; 
+		return;
+		
+		
+	}
+	
+console.log( "in student ctrl" ) ; 
+
+
+	
+
+
+$scope.services = [
+	
+{"service_name" :  "My Orders" , "img_src"  : "http://ipm-mathemagic.com/new/images/app/orders.jpg " , "service_desc" : " Click here to view all orders placed from this account " , "href_url" : "orders"} , 
+{"service_name" :  "My Mesages (comming soon) " , "img_src"  : "http://ipm-mathemagic.com/new/images/app/mails.jpg " , "service_desc" : " Click here to view any messages from IPM  " ,"href_url" : "messages"} , 
+{"service_name" :  "My Hall ticket (comming soon) " , "img_src"  : "http://ipm-mathemagic.com/new/images/app/orders.jpg " , "service_desc" : " Click here to get your hallticket for IPM exam ", "href_url" : "hallticket" } , 
+{"service_name" :  "My result (comming soon) " , "img_src"  : "http://ipm-mathemagic.com/new/images/app/results.jpg " , "service_desc" : " Click here to view your result for IPM Exam" ,  "href_url" : "exam_results" } 
+] 
+
+})
+
+
+.controller('ordersCtrl', function($scope , $rootScope, Orders , $http , $state) {
+
+console.log( "in orders ctrl" ) ; 
+
+var userid =  $scope.userModel.userid ; 
+
+Orders.execute (userid  ).then(function (data) { 
+	console.log( "got data for orders  " +data )  ; 
+	$scope.orders= data ; 
+	
+	
+	
+	}) ; 
+
+
+
+})
+
+.controller('RegisterCtrl', function ($scope, $stateParams, $ionicLoading, Registration, $ionicPopup, $state, $ionicModal, $timeout) {
+        $scope.user = {
+            name: "", username: "", mobile: "", email: "", password: "", repassword: "", city: ""        };
+$scope.errorMessage = "" ; 
+
+$scope.show = function() {
+        $ionicLoading.show({
+          template: '<p>Registering User ...</p><ion-spinner icon="android"></ion-spinner>'
+        });
+      };
+
+$scope.hide = function(){
+        $ionicLoading.hide();
+      }; 
+
+
+        $scope.doRegister = function(user)
+        {
+if ( user.password != user.repassword ) {
+console.log( 'passoword not matching'  + user.password + '-'+ user.repassword ); 
+ $scope.errorMessage = "Password and Confirm Password are not same " ; 
+return ; 
+ 
+}
+ 
+if ( ( user.name == '' ) || ( user.username == '' ) || ( user.mobile == '') || ( user.email =='' ) || ( user.city =='') || ( user.password =='' ) || ( user.repassword =='')) 
+{
+ $scope.errorMessage = "All fields are mandatory in user registration" ; 
+return; 
+}  
+ 
+$scope.errorMessage = "" ;
+            $scope.show();
+            Registration.post(user).then(function (data) {
+                console.log("user id is " + data);
+                if (data > 0 )
+                {
+                    $scope.errorMessage = "User created . " ; 
+					$scope.user = [] ; 
+					
+					/*
+                    $timeout(function () {
+                        // $scope.loading.hide();
+                        $state.go('login');
+                    }, 5000); */ 
+					$scope.hide(); 
+					
+                }
+else { $scope.errorMessage = data ; }
+                //$scope.$parent.hide(); 
+				$scope.hide() ; 
+				
+            }, function (error, status) {
+                $scope.$parent.hide();
+            })
+        }
+    })
+
+ 
+	
+	
 .controller('paymentCtrl', function($scope , $rootScope, $http, EBSPay) {
 	
 	$scope.paymentData = {} ; 
 	console.log( "order is " + $rootScope.orderData.IPMOrderNo + " status is " + $rootScope.orderData.orderStatus) ; 
-	$scope.IPMOrderNo = $rootScope.orderData.IPMOrderNo ; 
-	$scope.orderStatus = $rootScope.orderData.orderStatus ; 
+	$scope.order_no = $rootScope.order_no; 
+	$scope.orderStatus = "Pending" ; 
 	$scope.prodname = $rootScope.orderData.prodname  ; 
-	$scope.orderAmount = $rootScope.orderData.orderAmount ; 
-	$scope.orderAmount= $rootScope.orderData.orderAmount ;  
-	$scope.username = $rootScope.orderData.username ; 
-	$scope.email = $rootScope.orderData.email ; 
+	$scope.orderAmount= $rootScope.amount ;  
+	$scope.username = $rootScope.userModel.useraname ; 
+	$scope.email = $rootScope.userModel.email ; 
 	
 	
 	
@@ -698,14 +1172,63 @@ console.log( " save order is " + data ) ;
 
 })   
    
-.controller('homeCtrl', function($scope , $http, Courses) {
+.controller('homeCtrl', function($scope , $http, $rootScope,  Messages) {
+	console.log( "in home ") ;
+	
+	$scope.userModel = $rootScope.userModel ; 
+	
+	
+		Messages.execute( '' ).then(function (data) { 
+
+	$scope.ipm_messages= data;
+		
+	 
+	 console.log( "got data for records " + $scope.ipm_messages[0].message_text)  ; 
+	 
+	 //$rootScope.orderData = $scope.orderData ; 
+	
+	 //$scope.hide() ; 
+	 
+	 
+	
+	
+	
+	}) ;
+	
+	
+	
 
 })
+
+.controller('profileCtrl',  function($scope , Profile) {
+console.log( "in profile ") ; 
+var username =  $rootScope.userModel.username ; 
+
+Profile.get(username ).then ( function (data ) {
+	console.log  ( "got data ") ; 
+	$scope.user = [] ; 
+	
+	$scope.user.username  = data[0].username ; 
+	$scope.user.name  = data[0].name ; 
+	$scope.user.mobile  = data[0].mobile ; 
+	$scope.user.email  = data[0].email ; 
+	$scope.user.city  = data[0].city ; 
+	
+});
+$scope.updateProfile = function ( userData ) { 
+Profile.update ( userData).then ( function( data ) { 
+console.log( "in update ") ; 
+}); 
+}
+}) 
+
+
    
 .controller('solveTestCtrl', function($scope) {
 
 })
-   
+
+
 .controller('testSummaryCtrl', function($scope) {
 
 })

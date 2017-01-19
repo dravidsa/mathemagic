@@ -1,10 +1,16 @@
 <ion-view title="School List" id="page14" class=" ">
     <ion-content padding="true" class="has-header">
        
-	  No of schools  {{schools.length}}
+	
+	<label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" placeholder="School Name to Search" ng-model="searchName" ng-init="searchName=''" >
+        </label>
+		
 			<ion-list>
-  <ion-item ng-repeat="item in schools">
-  <ion-item class="balanced  " id= {{item.id}}}  ng-click="setSchool(item.school_name)" >   {{item.school_name}},{{item.school_address}} ,{{item.school_city}} </ion-item>
+  <ion-item ng-repeat="item in schools | filter:searchName ">
+
+  <ion-item class="item-text-wrap balanced"  id= {{item.school_code}}}  ng-click="setSchool(item.school_code, item.school_name +','+ item.school_address+ ','+ item.school_city )" >   {{item.school_name}},{{item.school_address}} ,{{item.school_city}} </ion-item>
   </ion-item>
 </ion-list>
            

@@ -1,12 +1,47 @@
-<ion-view title="My Courses" style="background-color:#E6EAF0;"  id="page14" class=" ">
+<ion-view title="My Courses" style="background-color:#66CDAA;"  id="page14" class=" ">
+ 
+<script>
+
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady(){
+screen.lockOrientation('landscape'); // or 'portrait'
+};
+
+
+</script>
+
+
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <div style="text-align:right;margin-right:5px">
+            <img src="img/logo.png" width="24" height="28" />
+            <div class="signin">
+                <ul ng-if="userModel.isLogIn==false">
+                    <li>
+                        <a href="#/login">Login</a>
+                    </li>
+                </ul>
+                <ul ng-if="userModel.isLogIn==true">
+                    <li>{{userModel.firstname}}</li>
+                </ul>
+            </div>
+        </div>
+    </ion-nav-buttons>
     <ion-content padding="true" class="has-header">
-        
-			
-			<ion-list>
+
+<ion-list>
   <ion-item ng-repeat="item in courses">
-  <ion-item class="balanced  " id= {{item.courseid}} ui-sref=testList({courseid:item.id})>   {{item.name}}</ion-item>
+  <ion-item class="balanced  " id= {{item.courseid}} ui-sref=tab.testList({courseid:item.id})>   {{item.name}}</ion-item>
   </ion-item>
 </ion-list>
+<BR/>
+<BR/>
            
     </ion-content>
+<BR/>
+<BR/>
+
+
 </ion-view>

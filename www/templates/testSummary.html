@@ -26,8 +26,10 @@
         </div>
         <div class="row" ng-repeat="item in quiz">
           <div class="col"><p class="item royal" >{{item.question_no }}</p></div>
-          <div ng-if="item.userSelection" class="col" ui-sref="solveTest({quizid : item.id , currentQuestion : item.question_no })" ><p ng-click=gotoQuestion({{item.question_no}}) class="item balanced" >Answered</p> </div>
-		  <div ng-if="!item.userSelection" class="col" ui-sref="solveTest({quizid : item.id , currentQuestion : item.question_no })"><p ng-click=gotoQuestion({{item.question_no}}) class="item assertive" >Not Answered</p> </div>
+          <div ng-if="item.userSelection && item.flagged" class="col" ui-sref="tab.solveTest({quizid : item.id , currentQuestion : item.question_no })" ><p ng-click=gotoQuestion({{item.question_no}}) class="item balanced icon ion-flag" >Answered</p> </div>
+		  <div ng-if="item.userSelection && !item.flagged" class="col" ui-sref="tab.solveTest({quizid : item.id , currentQuestion : item.question_no })" ><p ng-click=gotoQuestion({{item.question_no}}) class="item balanced" >Answered</p> </div>
+		  <div ng-if="!item.userSelection && item.flagged" class="col" ui-sref="tab.solveTest({quizid : item.id , currentQuestion : item.question_no })"><p ng-click=gotoQuestion({{item.question_no}}) class="item assertive icon ion-flag" >Not Answered</p></div>
+          <div ng-if="!item.userSelection && !item.flagged" class="col" ui-sref="tab.solveTest({quizid : item.id , currentQuestion : item.question_no })"><p ng-click=gotoQuestion({{item.question_no}}) class="item assertive" >Not Answered</p></div>
  
         
         </div>

@@ -7,13 +7,30 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
   
-
-      .state('home', {
+   .state('tab', {
+ url: "/tab",
+ abstract: true,
+ templateUrl: "templates/tabs.html"
+ })
+ 
+ .state('tab.home', {
     url: '/home',
+		  cache: false,
+	   views: {
+ 'tab-home': {
     templateUrl: 'templates/mathemagic.html',
    controller: 'homeCtrl'
+		}
+	   }
+  })
+
+  .state('profile', {
+    url: '/profile',
+		  cache: false,
+    templateUrl: 'templates/profile.html',
+   controller: 'profileCtrl'
+		
   })
 
   .state('signup', {
@@ -28,29 +45,41 @@ angular.module('app.routes', [])
     controller: 'LoginCtrl'
   })
 
-  .state('signup2', {
-    url: '/page11',
-    templateUrl: 'templates/signup2.html',
-    controller: 'signup2Ctrl'
+   .state('logout', {
+    url: '/logout',
+    templateUrl: 'templates/logout.html',
+    controller: 'LogoutCtrl'
+  })
+  
+  .state('register', {
+    url: '/register',
+    templateUrl: 'templates/register.html',
+    controller: 'RegisterCtrl'
   })
 
-  .state('login2', {
-    url: '/login',
-    templateUrl: 'templates/login2.html',
-    controller: 'login2Ctrl'
-  })
 
-  .state('products', {
-    url: '/products',
-    
+  .state('tab.products', {
+	    url: '/products',
+			  cache: false,
+	   views: {
+ 'tab-products': {
         templateUrl: 'templates/iPMProducts.html',
         controller: 'productsCtrl'
-     
+		}
+	   }
+	   
   })
-  .state('buy', {
-    url: '/buy',
+  .state('tab.buy', {
+	  url: '/buy',
+	    cache: false,
+	   views: {
+ 'tab-buy': {
+    
     templateUrl: 'templates/buy.html',
     controller: 'studentCtrl'
+		}
+	   }
+	   
   })
 
  .state('payment', {
@@ -59,20 +88,37 @@ angular.module('app.routes', [])
     controller: 'paymentCtrl'
   })
 
-  .state('learning', {
-    url: '/learning',
-      templateUrl: 'templates/learning.html',
+  .state('tab.learning', {
+	  url: '/learning',
+	  cache: false,
+	   views: {
+ 'tab-learning': {
+	      templateUrl: 'templates/learning.html',
         controller: 'learningCtrl'
-     
+		} 
+	   } 
+	   
    
   })
 
-  .state('mathemagic.studentServices', {
+  .state('tab.services', {
     url: '/services',
+	cache: false,
     views: {
-      'tab3': {
+      'tab-services': {
         templateUrl: 'templates/studentServices.html',
         controller: 'studentServicesCtrl'
+      }
+    }
+  })
+  
+   .state('tab.orders', {
+    url: '/orders',
+	cache: false,
+    views: {
+      'tab-services': {
+        templateUrl: 'templates/myOrders.html',
+        controller: 'ordersCtrl'
       }
     }
   })
@@ -87,18 +133,28 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('solveTest', {
-    url: '/test/:quizid/:currentQuestion',
+  .state('tab.solveTest', {
+    url: '/test/:quizid/:currentQuestion/:quizName/:mode',
+	  cache: false,
+	 views: {
+ 'tab-learning': {
     
         templateUrl: 'templates/solveTest.html',
         controller: 'solveTestCtrl'
-     
+		}
+	 }
   })
-   .state('testList', {
-    url: '/testList/:courseid',
+   .state('tab.testList', {
+	       url: '/testList/:courseid',
+		     cache: false,
+	
+	   views: {
+ 'tab-learning': {
         templateUrl: 'templates/testList.html',
         controller: 'testListCtrl'
-    
+			}
+	   }
+	   
   })
 
 
@@ -110,6 +166,7 @@ angular.module('app.routes', [])
         controller: 'orderDetailsCtrl'
 
   })
+  
   .state('schoolList', {
     url: '/schoolList',
 	cache: false,
@@ -120,6 +177,7 @@ angular.module('app.routes', [])
   
     .state('summary', {
     url: '/testSummary',
+	  cache: false,
         templateUrl: 'templates/testSummary.html',
         controller: 'summaryCtrl'
    
@@ -127,13 +185,14 @@ angular.module('app.routes', [])
   
    .state('results', {
     url: '/testResults',
+	  cache: false,
    
         templateUrl: 'templates/testResults.html',
         controller: 'resultsCtrl'
       
   })
 
-$urlRouterProvider.otherwise('home')
+$urlRouterProvider.otherwise('/tab/home')
 
 //$urlRouterProvider.otherwise('//')
 

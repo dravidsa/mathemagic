@@ -14,184 +14,79 @@ $(".toggle-btn:not('.noscript') input[type=radio]").change(function() {
 
 
 </script>
+
 <style>
 
-body { 
-    padding: 10px; 
-    font-family: sans-serif; 
-}
-h1, h2 { 
-    font-weight: bold; 
-    font-size: 16px; 
-    margin: 30px 0 5px 0;
-    padding: 0;
-    line-height: 1em;
-}
-h1 { 
-    font-size:20px; 
-    margin-top:0; 
+.bar-header{
+  
+  height: 60px 
 }
 
-
-label { 
-    padding:0.4em 2em 0.4em 0; 
-}
-.toggle-btn-grp { 
-    margin:3px 0; 
-}
-.toggle-btn { 
-    text-align:centre; 
-    margin:5px 2px;
-    padding:0.4em 3em; 
-    color:#000; 
-    background-color:#FFF; 
-    border-radius:10px; 
-    display:inline-block; 
-    border:solid 1px #CCC; 
-    cursor:pointer;
-}
-
-.toggle-btn-grp.joint-toggle .toggle-btn { 
-    margin:5px 0; 
-    padding:0.4em 2em; 
-    border-radius:0;
-    border-right-color:white;
-}
-.toggle-btn-grp.joint-toggle .toggle-btn:first-child { 
-    margin-left:2px; 
-    border-radius: 10px 0px 0px 10px; 
-}
-.toggle-btn-grp.joint-toggle .toggle-btn:last-child { 
-    margin-right:2px;  
-    border-radius: 0px 10px 10px 0px;
-    border-right:solid 1px #CCC;
-}
-
-
-.toggle-btn:hover { 
-    border:solid 1px #a0d5dc !important; 
-    background:#f1fdfe;
-}
-
-
-.toggle-btn.success { 
-    background:lightgreen;
-    border:solid 1px green !important; 
-}
-
-
-.visuallyhidden { 
-    border: 0; 
-    clip: rect(0 0 0 0); 
-    height: 1px; 
-    margin: -1px; 
-    overflow: hidden; 
-    padding: 0; 
-    position: absolute; 
-    width: 1px; 
-}
-.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { 
-    clip: auto; 
-    height: auto; 
-    margin: 0; 
-    overflow: visible; 
-    position: static; 
-    width: auto; 
-}
-
-
-/* CSS only version */
-.toggle-btn-grp.cssonly * {
-    width:140px;
-    height:30px;
-    line-height:30px;
-}
-.toggle-btn-grp.cssonly div {
-    display:inline-block;
-    position:relative;
-    margin:5px 2px;
-}
-
-.toggle-btn-grp.cssonly div label {
-    position:absolute;
-    z-index:0;
-    padding:0;
-    text-align:center;
-}
-
-.toggle-btn-grp.cssonly div input {
-    position:absolute;
-    z-index:1;
-    cursor:pointer;
-    opacity:0;
-}
-
-.toggle-btn-grp.cssonly div:hover label {
-    border:solid 1px #a0d5dc !important; 
-    background:#f1fdfe;
-}
-
-.toggle-btn-grp.cssonly div input:checked + label {
-    background:lightgreen;
-    border:solid 1px green !important; 
-}
 
 </style> 
 
-<ion-view title="Student Details" style="background-color:#E6EAF0;"  id="page14" class=" ">
+
+
+<ion-view title="Order Details" style="background-color:#66CDAA;"  id="page14" class=" " hide-back-button="false" >
+
+<ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <div style="text-align:right;margin-right:5px">
+            <img src="img/logo.png" width="24" height="28" />
+            <div class="signin">
+                <ul ng-if="userModel.isLogIn==false">
+                    <li>
+                        <a href="#/login">Login</a>
+                    </li>
+                </ul>
+                <ul ng-if="userModel.isLogIn==true">
+                    <li>{{userModel.username}}</li>
+                </ul>
+            </div>
+        </div>
+    </ion-nav-buttons>
     <ion-content padding="true" class="has-header">
  <form name="billingForm">
+ <center>{{errorMessage}}</center>
  
  <div class="row"> 
  <div class="col"> 
- 
-	<div class="card">
-<div class="item item-divider">
-Product Selected
-</div>
-<div class="list">
-   <div class="item" ng-model="orderData.prodname" >Product : {{prodname}} </div>
-   <div class="item" ng-model="orderData.price">Price        :  {{price}} </div>
-   
-</div> 
- 
-	
-  </div>
-
-</div>
-<div class="col"> 
 <div class="card">
 <div class="item item-divider">
-
-User Details {{orderData}}
-
+Product Selected 
 </div>
 <div class="list">
-   <div class="item" ng-model="orderData.username" > Username : {{username}} </div>
-   <div class="item" ng-model="orderData.useremail"> Email :  {{email}} </div>
+   <div class="item" ng-model="orderData.prodname" > {{prodname}} </div>
+   <div class="item" ng-model="orderData.price">Rs. {{price}} </div>
    
 </div> 
+</div>
+</div>
 
-</div> 
+
 </div> 
 </div> 
 
 
 <div class="card">
 <div class="item item-divider">
+Standard 
+</div> 
 <label class="item item-input item-select" >
     <div class="input-label">
       Select Standard
     </div>
     <select ng-model="orderData.standard" required >
-      <option>2nd</option>
-      <option>3rd</option>
-      <option>4th</option>
-	  <option>5th</option>
-	  <option>6th</option>
-	  <option>7th</option>
-	  <option>8th</option>
-	  <option>9th</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+	  <option>5</option>
+	  <option>6</option>
+	  <option>7</option>
+	  <option>8</option>
+	  <option>9</option>
     </select>
   </label>
 
@@ -202,7 +97,7 @@ User Details {{orderData}}
 
 
 
-<div id="studentdetails"  > 
+<div id="studentdetails" ng-if ="student == true "  > 
  <div class="row"> 
  <div class="col"> 
 	
@@ -213,26 +108,31 @@ Student Details
   <div class="item item-text-wrap">
 
   <div class="list">
-<label class="item item-input">
-<span class="input-label">Name</span>
-<input type="text" ng-model="orderData.studentname" >
-</label>
+  
+   <label class="item item-input" >
+    <input type="text" placeholder="Student Name" ng-model="orderData.student_name">
+  </label>
+
 
   
-  <div class = "row">
-   <div class = "col">
- <label class="item item-input">
-<span class="input-label" >Enter School and Search </span>
-<input id="school_name" type="text" ng-model="orderData.school_name"  >
-</label></div>
+ 
+   <label class="item item-input" >
+    <input type="text "  placeholder="Enter part of School Name  & search " ng-model="orderData.school_name">
+  </label>
+
+  
+  
+   
+   
+
+ <div class = "row">
  <div class = "col">
- <button ng-click="showSchools(orderData)" class="button-positive icon icon-right ion-home" ng-disabled="orderData.school_name == null"   >
-   Search School
-</button>  <BR/>
-School name will be accepted only if found in IPM school list. So search school after entering part of school name. 
- </div>
+ <button ng-click="showSchools(orderData)" class="button-positive icon icon-right ion-search" >
+ Search School
+</button>   </div> 
 
-  
+ <div class="col assertive"> Please be patient , it takes some time to load schools </div>  
+ </div>
   </div>
 <div class="row">
 <div class="col">  
@@ -249,32 +149,20 @@ Gender
         </div>
         <div class="radio">
             <label>
-                <input type="radio" name="Female" value="Female" ng-model="orderData.gender">
+                <input type="radio" name="gender" value="Female" ng-model="orderData.gender">
                 Female
             </label>
   </div>
 </div>
 </div>
  
-
 <div class="col">  
 <div class="card">
-<div class="item item-divider">
-Medium
-</div> 
-
-  <div class="radio">
-            <label>
-                <input type="radio" name="medium" value="English" ng-model="orderData.medium">
-                English
-            </label>
-        </div>
-        <div class="radio">
-            <label>
-                <input type="radio" name="medium" value="Marathi" ng-model="orderData.medium">
-                Marathi
-            </label>
-  </div>
+<div class="item item-icon-left" ion-datetime-picker date ng-model="orderData.birthDate">
+                <i class="icon ion-ios-calendar positive"></i>
+                Date of Birth :
+                <strong>{{orderData.birthDate| date: "dd-MM-yyyy"}}</strong>
+</div
 </div>
 </div>
 
@@ -286,11 +174,7 @@ Medium
 		
   
 
-<div class="item item-icon-left" ion-datetime-picker date ng-model="orderData.birthDate">
-                <i class="icon ion-ios-calendar positive"></i>
-                Date of Birth :
-                <strong>{{orderData.birthDate| date: "dd-MM-yyyy"}}</strong>
-</div
+
 </div>
   
 </div>
@@ -304,31 +188,58 @@ Medium
 
 <div class="card">
 <div class="item item-divider">
-Billing  Details  
+Billing & Shipping address
 </div>
+
+
   <div class="item item-text-wrap">
    <div class="list">
+ 
+   
   <label class="item item-input" >
-    <input type="text" placeholder="Billing Name" ng-model="orderData.name">
+    <input type="text" placeholder="Billing Name" ng-model="orderData.billingname" required>
+	 <p ng-show="orerData.billingname.$error.required">Billing name is required.</p>
+
   </label>
   <label class="item item-input" >
     <input type="text" placeholder="Address" ng-model="orderData.address">
+	 
   </label>  
    <label class="item item-input" >
-    <input type="text" placeholder="Phone" ng-model="orderData.phone">
+    <input type="number" placeholder="Phone" ng-model="orderData.phone">
   </label>  
-  <div class="row">
-  <div class="col"> 
+  
+
    <label class="item item-input" >
     <input type="text" placeholder="City" ng-model="orderData.city">
   </label>  
-   </div> 
+ 
    
-   <div class="col">  
-   State 
-    <select ng-options="field.id as field.state for field in states" ng-model="orderData.state"></select> 
-	  
-          </div>
+  
+   <label class="item item-input" >
+    <input type="number" placeholder="Pincode" ng-model="orderData.pincode">
+  </label>  
+   
+   
+
+   
+   <label class = "item item-input item-select">
+   <div class = "input-label">
+      State
+   </div>
+	 <select id ="stateid" ng-options="field.id as field.state for field in states" ng-model="orderData.state">
+<option value="">Maharashtra</option>	 
+	 </select> 
+	
+	 
+   
+   
+   
+   
+   
+   
+  
+ 
 
 
    </div>
@@ -347,10 +258,10 @@ Shipping Charges
 </div>
 
 <div class="list">
-   <div class="item" ng-model="orderData.shipping" ng-if="orderData.state =='MH'" > Shipping charges( Maharashtra) : Rs. 125 </div>
-   <div class="item" ng-model="orderData.shiiping" ng-if="orderData.state != 'MH'" > Shipping charges( Ourside Maharashtra) : Rs. 175 </div>
-   <div class="item" ng-model="orderData.orderAmount" ng-if="orderData.state =='MH'"   > Total Charges :   Rs. 375 </div>
-   <div class="item" ng-model="orderData.oredrAmount" ng-if="orderData.state !='MH'"   > Total Charges :   Rs. 425 </div>
+   <div class="item" ng-model="orderData.shipping" ng-if="orderData.state == null" > Shipping charges( Maharashtra) : Rs. 125 </div>
+   <div class="item" ng-model="orderData.shiiping" ng-if="orderData.state != null " > Shipping charges( Ourside Maharashtra) : Rs. 175 </div>
+   <div class="item" ng-model="orderData.orderAmount" ng-if="orderData.state ==null "   > Total Charges :   Rs. 475 </div>
+   <div class="item" ng-model="orderData.orderAmount" ng-if="orderData.state !=null "   > Total Charges :   Rs. 525 </div>
    
 </div> 
 
@@ -358,13 +269,14 @@ Shipping Charges
 </div>
 
 </div>
-</div> 
+
 
 
 <div class="padding">
 
 
- -{{orderData}}-
+ <center>{{errorMessage}}</center>
+
 <button class="button button-block button-positive" ng-click="saveOrder(orderData)" >Submit</div>
 </div>  
 

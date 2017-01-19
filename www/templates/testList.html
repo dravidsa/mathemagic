@@ -1,11 +1,34 @@
-<ion-view title="My Tests" id="page14" class=" ">
-    <ion-content padding="true" class="has-header">
-       
+<ion-view title="My Tests"  style="background-color:#66CDAA;"  id="page14" class=" ">
+  
+	<ion-nav-buttons side="right">
+        <div style="text-align:right;margin-right:5px">
+            <img src="img/logo.png" width="24" height="28" />
+            <div class="signin">
+                <ul ng-if="userModel.isLogIn==false">
+                    <li>
+                        <a href="#/login">Login</a>
+                    </li>
+                </ul>
+                <ul ng-if="userModel.isLogIn==true">
+                    <li>{{userModel.firstname}}</li>
+                </ul>
+            </div>
+        </div>
+    </ion-nav-buttons>
+	  <ion-content padding="true" class="has-header">
+         <ion-nav-view name="tab-testList"></ion-nav-view>
 			<ion-list>
   <ion-item ng-repeat="item in tests">
-  <ion-item class="balanced  " id= {{item.id}}}  ui-sref="solveTest({quizid : item.id , currentQuestion : 0 })">   {{item.name}}</ion-item>
+  <ion-item class="balanced  " id= {{item.id}}}  ui-sref="tab.solveTest({quizid : item.id , currentQuestion : 0 , quizName : item.name })">   {{item.name}}</ion-item>
   </ion-item>
 </ion-list>
+<BR/>
+<BR/>
+
            
     </ion-content>
+	<BR/>
+<BR/>
+
+	
 </ion-view>

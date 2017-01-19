@@ -1,7 +1,41 @@
-<ion-view title="Student services" id="page15" style="background-color:#E6EAF0;" class=" ">
-    <ion-content padding="true" class="has-header">
-        <ion-list id="studentServices-list14" class=" ">
-          This section will have  various services like getting hallticket , knowing the result of Final and Mega final etc 
-		  
-    </ion-content>
+<ion-view title="Student Services " style="background-color:#66CDAA;" id="page14" class=" ">
+    
+	<ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <div style="text-align:right;margin-right:5px">
+            <img src="img/logo.png" width="24" height="28" />
+            
+        </div>
+    </ion-nav-buttons>
+	<ion-content padding="true" class="has-header">
+	
+	
+	
+	
+  
+<ion-list>
+	
+  <ion-item ng-repeat="item in services">
+  
+	<ion-item class="balanced  " href="#/tab/{{item.href_url}}"	>   {{item.service_name}}   </ion-item>
+
+   <div class="item item-thumbnail-left">
+     <img src={{item.img_src}}>
+      <div class="item-text-wrap positive" >{{item.service_desc}}  
+	  </div>
+   </div>
+<BR/>
+<BR/>
+ 
+</ion-list> 
+<BR/>
+<BR/>
+
+</ion-content> 
+<BR/>
+<BR/>
+
 </ion-view>
+</html> 

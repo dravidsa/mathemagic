@@ -5,7 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives','ui.grid','ion-datetime-picker','ionic-datepicker'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'btford.socket-io',  'ui.grid','ion-datetime-picker','ionic-datepicker','ngCordova'])
+
+
+	
 
     .run(function ($rootScope, $state, $ionicPlatform, $window, $localstorage, Login) {
         var userModel = {
@@ -41,6 +44,20 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
     })
 	
+.config(function($cordovaInAppBrowserProvider) {
+
+  var defaultOptions = {
+    location: 'no',
+    clearcache: 'no',
+    toolbar: 'no'
+  };
+
+  document.addEventListener("deviceready", function () {
+
+    $cordovaInAppBrowserProvider.setDefaultOptions(options)
+
+  }, false);
+})
 	.config(function (ionicDatePickerProvider) {
     var datePickerObj = {
       inputDate: new Date(),
@@ -51,10 +68,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       weeksList: ["S", "M", "T", "W", "T", "F", "S"],
       monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
       templateType: 'popup',
-      from: new Date(2012, 8, 1),
+      from: new Date(2000, 8, 1),
       to: new Date(2018, 8, 1),
       showTodayButton: true,
-      dateFormat: 'dd MMMM yyyy',
+      dateFormat: 'dd mm yyyy',
       closeOnSelect: false,
       disableWeekdays: [6]
     };

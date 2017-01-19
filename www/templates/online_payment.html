@@ -31,75 +31,56 @@
         }
 
     </style>
- <div class="row"> 
- <div class="col"> 
- 
-	<div class="card">
-<div class="item item-divider">
-Product Selected
-</div>
-<div class="list">
-   <div class="item" ng-model="paymentData.prodname" >Product : {{prodname}} </div>
-   <div class="item" ng-model="paymentData.orderAmount">Order Amount        :  {{orderAmount}} </div>
-   
-</div> 
-</div>
+	<ion-view title="Payment" hide-back-button="true">
+ <form method="post" action="https://secure.ebs.in/pg/ma/payment/request" name="frmTransaction" id="frmTrasaction" target="_blank">
+<input name="account_id" type="hidden" value=10532 /> 
+<input name="reference_no" type="hidden" value=123456  /> 
+<input name="amount" type="hidden" value=100  /> 
+<input name="mode" type="hidden" value="LIVE"  /> 
+<input name="currency" type="hidden" value="INR" /> 
+<input name="description" type="hidden" value="by sandeep" /> 
+<input name="return_url" type="hidden" value=http://ipm-mathemagic.com/plugins/vmpayment/ebs/response.php?DR={DR}  /> 
+<table> 
+<tr>
+<td>Name </td>
+<td>
+<input name="name" >  </td> </tr><tr> 
+<td>Address</td>
+<td>
+<input name="address" >  </td>  </tr><tr> 
+<td>City </td> 
+<td> 
+<input name="city"  > </td></tr><tr> 
+<td>State </td> 
+<td> 
+<input name="state"  >  </td>  </tr><tr> 
+<td>Country</td>  
+<td> 
+<input name="country"  >  </td> </tr><tr> 
+<td>Postal Code</td> 
+<td> 
+<input name="postal_code"  >   </td> </tr><tr>  
+<td>Phone</td> 
+<td> 
+<input name="phone"  > </td>   </tr><tr> 
+<td>Email </td> 
+<td> 
+<input name="email" ></td>   </tr>
+</table> 
+<input name="ship_phone" type="hidden" value="" /> 
+<input name="bank_code" type="hidden" value="" /> 
+<input name="payment_option" type="hidden" value="" /> 
+<input name="secure_hash" type="hidden" value=ae34637866a2591fd181c473f7371d03  /> 
+<input name="name_on_card" type="hidden" value=TEST TEST  /> 
+<input name="card_number" type="hidden" value=4111111111111111  /> 
+<input name="card_expiry" type="hidden" value=0717  /> 
+<input name="card_cvv" type="hidden" value=123  /> 
+<input name="channel" type="hidden" value=0  /> 
+<input name="page_id" type="hidden" value=7595  /> 
+<input value="Submit" type="submit" /> 
 
-</div>
-<div class="col"> 
-<div class="card">
-<div class="item item-divider">
-
-User Details 
-</div>
-<div class="list">
-   <div class="item" ng-model="paymentData.username" > Username : {{username}} </div>
-   <div class="item" ng-model="paymentData.email"> Email :  {{email}} </div>
-   
-  
-</div> 
-
-</div> 
-</div> 
-</div> 
-
-
-<div class="card">
-<div class="item item-divider">
-Order Details 
-</div>
-
-   <div class="item" ng-model="paymentData.IPMOrderNo"> IPM Order No :  {{IPMOrderNo}} </div>
-   <div class="item" ng-model="paymentData.orderStatus"> Order Status :  {{orderStatus}} </div>
-   
-</div>
-</div> 
-
-
-	<div class="card">
-<div class="item item-divider">
-Credit / Debit Card Details 
-
-</div>
-
-    <div class="demo-container">
-        <div class="card-wrapper"></div>
-
-        <div class="form-container active">
-            
-                <input placeholder="Card number" type="text" name="paymentData.card_number">
-                <input placeholder="Full name" type="text" name="paymentData.name">
-                <input placeholder="MM/YY" type="text" name="paymentData.expiry">
-                <input placeholder="CVC" type="text" name="paymentData.cvc">
-          
-        </div>
-    </div>
-	</div>
-	<div class="padding">
-<button class="button button-block button-positive" ng-click="makePayment(paymentData)" >Submit</div>
-</div>  
-
-
+</form>
+</ion-view>
     
 </body>
 </html>

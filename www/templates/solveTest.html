@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <meta name=viewport content="width=device-width, initial-scale=1">
-<ion-view title="Solve Test " id="page7" style="background-color:#E6EAF0;"  class=" ">
+<ion-view cache-view="false" view-title="Solve Test" id="page7" style="background-color:#E6EAF0;"  class=" ">  
     <ion-content padding="true" class="has-header">
         <form id="solveTest-form7" class="list ">
 		
@@ -14,55 +14,86 @@
 
 <div id=""quiz" ng-app=myApp" ng-controller="quizCtrl">
 
-<font size= 5>
+<font size= 3>
 
 <style>
 .col{
 
-border: thin  solid black;
+border: 0px solid   black;
 }
 
 </style>
 
 
+<center>{{quizName}}</center>
+
+
+
+
 <div class = "row responsive-sm">
-   <div class = "col col-10 balanced ">Q: {{currentQuestion}} :</div>
-   <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].text" ></div> </div>
+   <div class = "col col-10 positive ">Q: {{currentQuestion}} :</div>
+   <div class = "col positive" ><div ng-bind-html="sanitizeMe(quiz[currentQuestion-1].text)" ></div> </div>
    </div>
    
    <div class = "row responsive-sm">
-   <div class = "col col-10 balanced "><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="1"> </div>
+   <div class = "col col-10 balanced ">1) <input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="1"> </div>
    <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].ans1" ></div> </div>
    </div>
 
    <div class = "row responsive-sm">
-   <div class = "col col-10 balanced "><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="2"></div>
+   <div class = "col col-10 balanced ">2) <input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="2"></div>
    <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].ans2" ></div> </div>
    </div>
 
    <div class = "row responsive-sm">
-   <div class = "col col-10 balanced "><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="3"></div>
+   <div class = "col col-10 balanced ">3) <input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="3"></div>
    <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].ans3" ></div></div>
    </div>
    
    <div class = "row responsive-sm">
-   <div class = "col col-10 balanced "><input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="4"></div>
+   <div class = "col col-10 balanced ">4) <input type="radio" name="currentQuestion"  ng-model="quiz[currentQuestion-1].userSelection" value="4"></div>
    <div class = "col balanced" ><div ng-bind-html="quiz[currentQuestion-1].ans4" > </div></div>
    </div>
 
 
 <BR/>
 
+<div id=buttons>
   
    <div class = "row responsive-sm">
-   <div class = "col balanced "><button ng-disabled="currentQuestion==1" ng-click=getQuestion("prev")>Prev Question</button></div>
-   <div class = "col balanced" align="right" ><button ng-disabled="currentQuestion==40" ng-click=getQuestion("next")>Next Question </button></div>
+   <div class = "col  balanced "><button class =" button-positive icon-left icon ion-arrow-left-a" ng-disabled="currentQuestion==1" ng-click=getQuestion("prev")>Prev Question</button></div>
+   <div class = "col  balanced " ng-if="mode!='postsubmit'" ><button class =" button-positive icon-left icon ion-flag"  ng-click="flagQuestion('true')" ng-if="quiz[currentQuestion-1].flagged != true" >Flag Question</button></div>
+   <div class = "col  balanced " ng-if="mode!='postsubmit'" ><button class =" button-positive icon-left icon ion-flag"  ng-click="flagQuestion('false')" ng-if="quiz[currentQuestion-1].flagged == true" >Un-Flag Question</button></div>
+    <div class = "col balanced "> {{flagMessage}}</div>
+   <div class = "col balanced" align="right" ><button class ="button-positive icon-right  icon ion-arrow-right-a" ng-disabled="currentQuestion>=quiz.length" ng-click=getQuestion("next")>Next Question </button></div>
 
   </div> 
+ </div> 
+ 
   
+<div id=answers ng-if="mode=='postsubmit'">
+
+<div class = "row responsive-sm">
+<div class=  "col balanced">Correct Answer : {{ quiz[currentQuestion-1].correct}} </div> 
+<div class=  "col royal">You answered  : {{ quiz[currentQuestion-1].userSelection}} </div> 
+<div class=  "col balanced" ng-if="quiz[currentQuestion-1].correct == quiz[currentQuestion-1].userSelection" >Answer : <img src="http://ipm-mathemagic.com/new/images/app/correct.jpg"> </img>  </div> 
+<div class=  "col assertive" ng-if="quiz[currentQuestion-1].correct != quiz[currentQuestion-1].userSelection" >Answer : <img src="http://ipm-mathemagic.com/new/images/app/wrong.jpg"> </img>  </div> 
+ 
+</div> 
+
+</div>
+
 	
-	  <a  ng-click=submitQuiz() class=" button button-positive button-large button-block icon-left ion-android-bus ">Submit Test</a>
+	  <a  ng-click=submitQuiz() class=" button button-positive  button-block icon-left ion-checkmark-circled " ng-if="mode!='postsubmit'" >Submit Test</a>
+	    <a  ng-click=goBack() class=" button button-positive  button-block icon-left ion-checkmark-circled " ng-if="mode=='postsubmit'" >Back to Result</a>
+	  <BR/>
+	  <BR/>
 	  
+</div> 
+
+<BR/>
+
+
 
 
 </font> 	

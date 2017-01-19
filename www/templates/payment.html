@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+ 
+	<script src="md5.js"></script>
+	 <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+<head>
+ <title>IPM Payment Page </title>
+</head>
+<body>
+<BR/>
+<BR/>
+
+<center>
+
+Wait .......Taking you to payment gateway. 
+ <button onclick="payment()">Go to Payment </button>
+ </center>
+ 
+ <script type="text/javascript">
+ 
+ payment() ; 
+ 
+  
+function getParamValuesByName (querystring) {
+  var qstring = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  for (var i = 0; i < qstring.length; i++) {
+    var urlparam = qstring[i].split('=');
+    if (urlparam[0] == querystring) {
+       return urlparam[1];
+    }
+  }
+}
+
+
+     function payment() {
+        var winName = '_self';
+console.log( " in here ") ; 
+var key ="e918f92d41508857288b020b3c70dfac";
+var account_id = 10532 ; 
+var mode = "TEST" ; 
+var return_url =    'http://ipm-mathemagic.com/api/ebs/response_app.php?DR={DR}'  ; 
+//var order_no = 1221212 ; 
+
+
+var secured_hash = '' ;  
+console.log ( "hash str is -" + hash_str + "- hash is -" + secured_hash +"-") ; 
+
+var amount = getParamValuesByName('amount') ; 
+var order_no = getParamValuesByName('order_no') ; 
+var name = getParamValuesByName('name') ; 
+var city = getParamValuesByName('city') ; 
+var postal_code = getParamValuesByName('postal_code') ; 
+var email = getParamValuesByName('email') ; 
+var address = getParamValuesByName('address') ; 
+var phone = getParamValuesByName('phone') ; 
+
+var hash_str =  key + "|" +  account_id + "|" + amount + "|" + order_no + "|" + return_url + "|" + mode  ;
+var secured_hash = md5(hash_str) ; 
+console.log(  "amount is " + amount + "order is " + order_no ) ; 
+
+    var params = {
+'account_id' :  account_id  ,  
+'reference_no' : order_no ,  
+'amount'  : amount ,  
+'mode' :  mode ,  
+        'currency'  : 'INR' ,  
+        'description' : 'For Ipm' , 
+        'return_url' :  return_url , 
+        'name' :  name   , 
+'address'  : address    , 
+'city' :  city   , 
+'country' : 'Ind' ,
+'postal_code' : postal_code , 
+'email' :  email   , 
+'secure_hash' : secured_hash   , 
+   'phone' : phone  , 
+'channel' : '0' ,
+'page_id' : 7595 
+    };
+console.log ( "params are " + JSON.stringify(params)  ) ; 
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", 'https://secure.ebs.in/pg/ma/payment/request');
+    form.setAttribute("target", '_self');
+    for (var i in params) {
+        if (params.hasOwnProperty(i)) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = i;
+            input.value = params[i];
+            form.appendChild(input);
+        }
+     }
+    document.body.appendChild(form);
+    // window.open('', winName,windowoption);
+    form.target = '_self';
+    console.log(form.action);
+	 
+	
+	
+
+
+
+ 
+     form.submit();
+
+      
+    }
+
+ 
+
+var uid = getParamValuesByName('uid');
+var uname = getParamValuesByName('uname');
+		
+		
+ </script>
+</body>
+</html>
