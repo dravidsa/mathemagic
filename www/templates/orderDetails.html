@@ -197,27 +197,27 @@ Billing & Shipping address
  
    
   <label class="item item-input" >
-    <input type="text" placeholder="Billing Name" ng-model="orderData.billingname" required>
+    <input type="text" placeholder="Billing Name" ng-model="orderData.billingname" ng-pattern-restrict="^[A-Za-z 0-9 , - ]*$" required>
 	 <p ng-show="orerData.billingname.$error.required">Billing name is required.</p>
 
   </label>
   <label class="item item-input" >
-    <input type="text" placeholder="Address" ng-model="orderData.address">
+    <input type="text" placeholder="Address" ng-model="orderData.address" ng-pattern-restrict="^[A-Za-z 0-9 \, \/ \- ]*$" required>
 	 
   </label>  
    <label class="item item-input" >
-    <input type="number" placeholder="Phone" ng-model="orderData.phone">
+    <input type="number" placeholder="Phone" ng-model="orderData.phone" minlength="5">
   </label>  
   
 
    <label class="item item-input" >
-    <input type="text" placeholder="City" ng-model="orderData.city">
+    <input type="text" placeholder="City" ng-model="orderData.city"  ng-pattern-restrict="^[A-Za-z ]*$" >
   </label>  
  
    
   
    <label class="item item-input" >
-    <input type="number" placeholder="Pincode" ng-model="orderData.pincode">
+    <input type="number" placeholder="Pincode" ng-model="orderData.pincode"  required>
   </label>  
    
    

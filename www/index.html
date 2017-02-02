@@ -11,6 +11,7 @@
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+	<script src="js/ng-pattern-restrict.js"></script>
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -103,7 +104,7 @@
             </ion-header-bar>
             <ion-content padding="false" class="side-menu-left has-header">
                 <ion-list id="menu-list4" class=" " data-componentid="list4">
-				 <ion-item item-type="item-icon-left" nav-clear menu-close  ui-sref="profile" class="menu-item">
+				 <ion-item item-type="item-icon-left" ng-if="userModel.isLogIn==true" nav-clear menu-close  ui-sref="profile" class="menu-item">
                     <i class="icon icon ion-person"></i>
                     My Profie
                 </ion-item>

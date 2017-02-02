@@ -1,6 +1,6 @@
 angular.module('app.controllers', ['ngSanitize'])
         
-.controller("quizCtrl",  function($scope, $rootScope , Quiz,$http, $state,$stateParams ,$ionicHistory,$sce) {
+.controller("quizCtrl",  function($scope, $rootScope , Quiz, LogTest , $http, $state,$stateParams ,$ionicHistory,$sce) {
 	
 	
 	if ( $rootScope.userModel.isLogIn ==false  ) {
@@ -221,6 +221,25 @@ console.log("got in showResults ");
 
 //console.log( "last ques is " + $scope.quiz[1].text) ; 
 $rootScope.quiz = $scope.quiz  ; 
+
+userData.username = $rootScope.userModel.username  ; 
+userData.quizid = $scope.quiz; 
+userData.marks = 0 ; 
+var currentdate = new Date(); 
+var datetime =  currentdate.getDate() + "-" + 
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getFullYear() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+userData.datetime = datetime ; 
+
+	LogTest.execute( userData ).then ( data , function() {
+		
+		console.log( "quiz log sent ") ; 
+				
+	});
+	
 $state.go('results'); 
 
 //window.location  = "templates/testSummary.html"  ; 
@@ -441,7 +460,7 @@ scope.currentQuestion = question_no ;
 			//$location.path('/login') ; 
             //$state.go("app.login") ; 
 			$localstorage.setObject('userModel', $rootScope.userModel);
-            $state.go('login'); 
+            $state.go('tab.home'); 
         }
 
           })
@@ -760,7 +779,7 @@ $scope.school_name = $rootScope.school_name;
           //  alert( values[ 0 ] );
 		  var responseText = values[0] ; 
 		  //alert ( "exitting with>" + responseText+"<" ) ; 
-		  if ( responseText.includes("confirmed")) { 
+		  if ( responseText.includes("Thanks for your order . Your order is confirmed")) { 
 		  //alert ( responseText ) ;
 		  alert( " Thank You for your order. Your order is confirmed.") ; 
 			ref.close()		  ;
@@ -768,9 +787,14 @@ $scope.school_name = $rootScope.school_name;
 		   $state.go('tab.orders') ; 
 		  
 		  }
-		  else {
-			   // alert( "Eror in processing your order . Your order has failed.") ; 
+		else if ( responseText.includes("Your order could not be processed") ) { 
+		  
+			   alert( "Eror in processing your order . Your order has failed.") ; 
+			   ref.close(); 
+			    $state.go('tab.home') ; 
 		  }
+		  
+		  
         }
 
 
@@ -846,6 +870,8 @@ $scope.hide = function(){
 	orderData.amount = parseInt($scope.price)  + parseInt(shipping)  ; 
 	}
 	
+	
+	
 	console.log( "date is " + orderData.birthDate) ; 
 
  	if ( ( $scope.prodid != 1 )  && ( $scope.prodid != 4) ) {
@@ -918,7 +944,7 @@ $scope.hide = function(){
 			
 		}
 	}
-	 console.log( "checking billing ") ; 
+	 console.log( "checking billing -"+  orderData.phone .toString().length+ "-") ; 
 	 
 	 if ( (orderData.state =="" )  || ( orderData.state == null) ) { orderData.state = 428 ; }
        if (  ( orderData.billingname == "") || ( orderData.address == "") || ( orderData.city =="" ) || ( orderData.pincode == "" ) || ( orderData.phone == "") || ( orderData.billingname == null ) || ( orderData.address == null ) || ( orderData.city == null  ) || ( orderData.pincode == null )  || ( orderData.phone == null )  ) {
@@ -943,10 +969,22 @@ $scope.hide = function(){
 			return false ; 
 		  
 	  }
+	  if   ( orderData.phone.toString().length < 10)     {
+		  $scope.errorMessage = "mobile phone number needs to be at least 10 chars long " ; 
+		   console.log( "small phone    -" +   orderData.phone + "-" )  ; 
+			return false ; 
+		  
+	  }
 	  
 	   if   (angular.isNumber (orderData.pincode ) == false)    {
 		  $scope.errorMessage = "Please enter Nummeric pincode  " ; 
 		   console.log( "non numeric pincode   -"+ orderData.pincode + "-")  ; 
+			return false ; 
+		  
+	  }
+	  if   (orderData.pincode.toString().length < 6    )    {
+		  $scope.errorMessage = "Pincode should be of 6  characters   " ; 
+		   console.log( "small  pincode   -"+ orderData.pincode + "-")  ; 
 			return false ; 
 		  
 	  }
@@ -1200,7 +1238,7 @@ console.log( " save order is " + data ) ;
 
 })
 
-.controller('profileCtrl',  function($scope , Profile) {
+.controller('profileCtrl',  function($scope , $rootScope, Profile) {
 console.log( "in profile ") ; 
 var username =  $rootScope.userModel.username ; 
 

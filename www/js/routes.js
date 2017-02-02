@@ -47,8 +47,11 @@ angular.module('app.routes', [])
 
    .state('logout', {
     url: '/logout',
+	  cache: false,
+	 
     templateUrl: 'templates/logout.html',
     controller: 'LogoutCtrl'
+	
   })
   
   .state('register', {

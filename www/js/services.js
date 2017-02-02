@@ -341,6 +341,38 @@ angular.module('app.services', [])
     }
 })
 
+
+.factory('LogTest', function ($http, $q, Config) {
+
+    return {
+        execute: function (userData) {
+            var url = Config.serverBaseUrl + "api/logTest/";
+            console.log("in service for logTest " + userData ) ; 
+            var deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: url,
+				data :userData ,				
+				headers : {
+        'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+				} 
+            }).success(function (data, status, headers, cfg) {
+                console.log("got data " + data);
+                deferred.resolve(data);
+            }).error(function (err, status) {
+                console.log(err);
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        },
+
+        get: function () {
+            // Simple index lookup
+            return;
+        }
+    }
+})
+
 .factory('Pay', function ($http, $q, Config) {
 
     return {
@@ -484,6 +516,8 @@ angular.module('app.services', [])
 }
 
 })
+
+
 
 .factory('Profile', function ($http, $q, Config) {
     return {

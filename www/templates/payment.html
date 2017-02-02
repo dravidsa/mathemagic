@@ -15,7 +15,7 @@
 <center>
 
 Wait .......Taking you to payment gateway. 
- <button onclick="payment()">Go to Payment </button>
+ <button onclick="payment()" disabled >Go to Payment </button>
  </center>
  
  <script type="text/javascript">
@@ -39,7 +39,7 @@ function getParamValuesByName (querystring) {
 console.log( " in here ") ; 
 var key ="e918f92d41508857288b020b3c70dfac";
 var account_id = 10532 ; 
-var mode = "TEST" ; 
+var mode = "LIVE" ; 
 var return_url =    'http://ipm-mathemagic.com/api/ebs/response_app.php?DR={DR}'  ; 
 //var order_no = 1221212 ; 
 
@@ -76,8 +76,8 @@ console.log(  "amount is " + amount + "order is " + order_no ) ;
 'email' :  email   , 
 'secure_hash' : secured_hash   , 
    'phone' : phone  , 
-'channel' : '0' ,
-'page_id' : 7595 
+'channel' : '0',
+'page_id' : 1 
     };
 console.log ( "params are " + JSON.stringify(params)  ) ; 
     var form = document.createElement("form");
