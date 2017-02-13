@@ -1,6 +1,6 @@
 angular.module('app.controllers', ['ngSanitize'])
         
-.controller("quizCtrl",  function($scope, $rootScope , Quiz, LogTest , $http, $state,$stateParams ,$ionicHistory,$sce) {
+.controller("quizCtrl",  function($scope, $rootScope , Quiz, LogTest ,ConnectivityMonitor ,  $http, $state,$stateParams ,$ionicHistory,$sce) {
 	
 	
 	if ( $rootScope.userModel.isLogIn ==false  ) {
@@ -45,6 +45,16 @@ if ($scope.currentQuestion == 0 ) {
         }
 		
 		//quizData.quizid = $scope.quizid  ; 
+		
+		if ( ConnectivityMonitor.isOnline() ) 
+		 {
+			 // alert("You are online ") ; 
+			 
+		 }
+		 else {
+				alert( "you are not online . Please check your internet connection ") ; return ; 
+				
+		}
 		
 	Quiz.execute( $scope.quizid ).then(function (data) { 
 	console.log( "got data " +data )  ; 
@@ -320,9 +330,9 @@ scope.currentQuestion = question_no ;
 
 })
 
- .controller('LoginCtrl', function ($scope, $state, $location, Login , $rootScope, $localstorage,$ionicLoading) {
+ .controller('LoginCtrl', function ($scope, $state, $location, Login , $rootScope, $localstorage,$ionicLoading,ConnectivityMonitor) {
         console.log( "in controller ") ; 
-
+ 
 		$scope.show = function() {
     $ionicLoading.show({
       template: '<p>Loading...</p><ion-spinner></ion-spinner>'
@@ -355,6 +365,15 @@ scope.currentQuestion = question_no ;
         $scope.doLogin = function (loginData) {
 			
 			
+		 if ( ConnectivityMonitor.isOnline() ) 
+		 {
+			 // alert("You are online ") ; 
+			 
+		 }
+		 else {
+				alert( "you are not online . Please check your internet connection ") ; return ; 
+				
+		}
 			
            
            console.log( "in login of controller "+loginData);
@@ -480,7 +499,7 @@ scope.currentQuestion = question_no ;
    
 
    
-.controller('productsCtrl', function($scope,$rootScope , $state, Products,$http)  {
+.controller('productsCtrl', function($scope,$rootScope , ConnectivityMonitor , $state, Products,$http)  {
 	
 	
 	if ( $rootScope.userModel.isLogIn ==false  ) {
@@ -496,6 +515,17 @@ scope.currentQuestion = question_no ;
    $scope.userModel  = $rootScope.userModel ; 
    
 
+		 if ( ConnectivityMonitor.isOnline() ) 
+		 {
+			 // alert("You are online ") ; 
+			 
+		 }
+		 else {
+				alert( "you are not online . Please check your internet connection ") ; return ; 
+				
+		}
+		
+   
 	$scope.productsData ={} ; 
 	
 	$scope.productsData.status = "Confirmed" ; 
@@ -509,7 +539,7 @@ scope.currentQuestion = question_no ;
 
 })
    
-.controller('learningCtrl', function($scope,$rootScope , Courses,$http, $state) {
+.controller('learningCtrl', function($scope,$rootScope , ConnectivityMonitor , Courses,$http, $state) {
 	//console.log( "showing products for " + $rootScope.userModel.username ) ; 
 	
 	if ( $rootScope.userModel.isLogIn == false  )
@@ -519,6 +549,18 @@ scope.currentQuestion = question_no ;
 		$state.go ( "login") ; 
 return ; 
 	}
+	
+	
+		 if ( ConnectivityMonitor.isOnline() ) 
+		 {
+			 // alert("You are online ") ; 
+			 
+		 }
+		 else {
+				alert( "you are not online . Please check your internet connection ") ; return ; 
+				
+		}
+		
 
 	var username =  $rootScope.userModel.username ; 
 	//var username = "sandra" ; 
@@ -534,7 +576,7 @@ return ;
 	
 
 })
-.controller('testListCtrl', function($scope,$rootScope , Tests,$http, $state,$stateParams) {
+.controller('testListCtrl', function($scope,$rootScope , Tests, ConnectivityMonitor , $http, $state,$stateParams) {
 	
 	  var courseid = 4 ; 
 	  
@@ -544,6 +586,15 @@ return ;
 			console.log( " got course id " + $stateParams.courseid) ; 
 			
 			
+		 if ( ConnectivityMonitor.isOnline() ) 
+		 {
+			 // alert("You are online ") ; 
+			 
+		 }
+		 else {
+				alert( "you are not online . Please check your internet connection ") ; return ; 
+				
+		}
 			
 	Tests.execute( $scope.courseid ).then(function (data) { 
 	console.log( "got data " +data )  ; 
@@ -559,7 +610,7 @@ return ;
 
 
    
-.controller('orderDetailsCtrl', function($scope,$rootScope , Schools, SaveOrder , Billing, $http, $state,$stateParams,$ionicLoading , $cordovaInAppBrowser ) {
+.controller('orderDetailsCtrl', function($scope,$rootScope , Schools, SaveOrder , Billing, ConnectivityMonitor , $http, $state,$stateParams,$ionicLoading , $cordovaInAppBrowser ) {
 console.log( " in orderDetails") ; 
 $scope.errorMessage = "All data on this form is mandatory" ; 
 $scope.orderData = "" ; 
@@ -587,7 +638,15 @@ $scope.states =
 
 
 $scope.username =  $rootScope.userModel.username ; 
+if ( $rootScope.userModel.mail == '' )
+{
+	alert("your session has expired , please login again ") ;  
+	$state.go('login'); 
+	
+	
+}
 $scope.email =  $rootScope.userModel.mail  ; 
+
 
 console.log( "getting billing data for userid " + $rootScope.userModel.userid ); 
 
@@ -848,6 +907,17 @@ $scope.hide = function(){
 	
 	
 	$scope.saveOrder  = function(  orderData ){
+		
+		
+		 if ( ConnectivityMonitor.isOnline() ) 
+		 {
+			 // alert("You are online ") ; 
+			 
+		 }
+		 else {
+				alert( "you are not online . Please check your internet connection ") ; return ; 
+				
+		}
 	console.log( "order data is " + $scope.prodname + "studentname " + orderData +"Scope order " ) ; 
 	
 	if ( orderData =="" ) { console.log( " not going to save " ); return ; }
@@ -1016,7 +1086,8 @@ $scope.hide = function(){
 
 $scope.show = function() {
         $ionicLoading.show({
-          template: '<p>Loading Schools ...</p><ion-spinner icon="android"></ion-spinner>'
+          template: '<p>Loading Schools ...</p>' , 
+		    duration: 5000
         });
       };
 
