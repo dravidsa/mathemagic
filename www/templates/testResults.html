@@ -13,26 +13,26 @@
 
 
 <div class="row responsive-sm ">
-<div class="col"> <p class="item balanced" > Total Questions = {{ total_questions }} </p></div>
-<div class="col"> <p class="item balanced" >Correct Answers = {{ correct_answers }} </p> </div>
-<div class="col"> <p class="item balanced" >Total Marks  = {{ total_marks }} </p></div>
+<div class="col-33"> <p class="item balanced" > Total Questions = {{ total_questions }} </p></div>
+<div class="col-33"> <p class="item balanced" >Correct Answers = {{ correct_answers }} </p> </div>
+<div class="col-33"> <p class="item balanced" >Total Marks  = {{ total_marks }} </p></div>
 
 </div>
 
  <div class="row header responsive-sm">
-          <div class="col-20"><p class="item positive">Question No</p></div>
-          <div class="col-60"><p class="item positive">Status</p></div>
-		  <div class="col-20"><p class="item positive">Marks</p></div>
+          <div class="col-33"><p class="item positive">Question No</p></div>
+          <div class="col-33"><p class="item positive">Status</p></div>
+		  <div class="col-33"><p class="item positive">Marks</p></div>
 		
                
        
         </div>
         <div class="row responsive-sm" ng-repeat="item in quiz">
-          <div class="col-20"><p class="item royal" >{{item.question_no }}</p></div>
-		  <div class="col-60" ng-if="item.userSelection ==item.correct" > <p class="item balanced " class="col" ui-sref="tab.solveTest({quizid : item.id , currentQuestion : item.question_no  , mode: 'postsubmit'})"  >Correct</p><i class="icon ios-checkbox-outline" ></i></div>
-		  <div class="col-60" ng-if="item.userSelection !=item.correct"><i class="icon ios-close-outline"><p class="item assertive" class="col" ui-sref="tab.solveTest({quizid : item.id , currentQuestion : item.question_no , mode: 'postsubmit'  })" >Incorrect</p></i></div>
-          <div class="col-20" ng-if="item.userSelection ==item.correct"><p class="item balanced">{{item.marks}}</p> </div>
-		  <div class="col-20" ng-if="item.userSelection !=item.correct"><p class="item assertive">0</p></div> 
+          <div class="col-33"><p class="item royal" >{{item.question_no }}</p></div>
+		  <div class="col-33" ng-if="item.userSelection ==item.correct" > <p class="item balanced " class="col" ui-sref="tab.solveTest({quizid : item.id , currentQuestion : item.question_no  , mode: 'postsubmit'})"  >Correct</p><i class="icon ios-checkbox-outline" ></i></div>
+		  <div class="col-33" ng-if="item.userSelection !=item.correct"><i class="icon ios-close-outline"><p class="item assertive" class="col" ui-sref="tab.solveTest({quizid : item.id , currentQuestion : item.question_no , mode: 'postsubmit'  })" >Incorrect</p></i></div>
+          <div class="col-33" ng-if="item.userSelection ==item.correct"><p class="item balanced">{{item.marks}}</p> </div>
+		  <div class="col-33" ng-if="item.userSelection !=item.correct"><p class="item assertive">0</p></div> 
       
         </div>
 

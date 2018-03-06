@@ -14,6 +14,7 @@ angular.module('app.controllers', ['ngSanitize'])
 	
     //$scope.mode = "normal"; 
 	
+	
     $scope.mode = "checking"; 
 	
     $scope.myText = "My name is: <h1>John Doe</h1>";
@@ -155,6 +156,12 @@ $scope.getQuestion = function (qtype ) {
     
 }    
 
+$scope.gotoTests = function ()  {
+		
+		console.log( "going to test home ") ;
+		$state.go("tab.learning"); 
+	}	
+	
 
 $scope.submitQuiz = function () {
 
@@ -226,12 +233,17 @@ $scope.sleep = function(milliseconds) {
 	
 	
 	$scope.showResults = function () {
+var userData ; 
 
+//userData.username = ''  ;
+//userData.quizid = 0 ; 
+ 
 console.log("got in showResults "); 
 
 //console.log( "last ques is " + $scope.quiz[1].text) ; 
 $rootScope.quiz = $scope.quiz  ; 
 
+/*
 userData.username = $rootScope.userModel.username  ; 
 userData.quizid = $scope.quiz; 
 userData.marks = 0 ; 
@@ -244,11 +256,12 @@ var datetime =  currentdate.getDate() + "-" +
                 + currentdate.getSeconds();
 userData.datetime = datetime ; 
 
-	LogTest.execute( userData ).then ( data , function() {
+	 LogTest.execute( userData ).then ( data , function() {
 		
 		console.log( "quiz log sent ") ; 
 				
 	});
+*/ 
 	
 $state.go('results'); 
 

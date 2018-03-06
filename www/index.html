@@ -3,7 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+	<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+	
+ </head> 
+ 
+	<title></title>
 
     
     
@@ -59,7 +63,7 @@
 	<script src="angular-ui-grid/ui-grid.js"></script>
 	<script src="angular-ui-grid/ui-grid.css"></script>
 	<script src="lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
+	
 	<script type="text/javascript" src="plugins/cordova-plugin-screen-orientation/www/screenorientation.js"></script>
 	<script type="text/javascript" src="plugins/cordova-plugin-screen-orientation/www/screenorientation.android.js"></script>
 	<script src="plugins/cordova-plugin-inappbrowser/www/inappbrowser.js"></script>
@@ -69,6 +73,7 @@
 <link href="lib/ion-datetime-picker/release/ion-datetime-picker.min.css" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.6/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
 
@@ -81,7 +86,6 @@
     <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
     -->
 
-  </head>
   
   
    

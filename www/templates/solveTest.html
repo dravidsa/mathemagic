@@ -14,12 +14,12 @@
 
 <div id=""quiz" ng-app=myApp" ng-controller="quizCtrl">
 
-<font size= 3>
+<font size= 5>
 
 <style>
 .col{
 
-border: 0px solid   black;
+border: 1px solid   green;
 }
 
 </style>
@@ -31,7 +31,7 @@ border: 0px solid   black;
 
 
 <div class = "row responsive-sm">
-   <div class = "col col-10 positive ">Q: {{currentQuestion}} :</div>
+   <div class = "col col-10 positive ">Q: {{currentQuestion}}</div>
    <div class = "col positive" ><div ng-bind-html="sanitizeMe(quiz[currentQuestion-1].text)" ></div> </div>
    </div>
    
@@ -61,11 +61,9 @@ border: 0px solid   black;
 <div id=buttons>
   
    <div class = "row responsive-sm">
-   <div class = "col  balanced "><button class =" button-positive icon-left icon ion-arrow-left-a" ng-disabled="currentQuestion==1" ng-click=getQuestion("prev")>Prev Question</button></div>
-   <div class = "col  balanced " ng-if="mode!='postsubmit'" ><button class =" button-positive icon-left icon ion-flag"  ng-click="flagQuestion('true')" ng-if="quiz[currentQuestion-1].flagged != true" >Flag Question</button></div>
-   <div class = "col  balanced " ng-if="mode!='postsubmit'" ><button class =" button-positive icon-left icon ion-flag"  ng-click="flagQuestion('false')" ng-if="quiz[currentQuestion-1].flagged == true" >Un-Flag Question</button></div>
-    <div class = "col balanced "> {{flagMessage}}</div>
-   <div class = "col balanced" align="right" ><button class ="button-positive icon-right  icon ion-arrow-right-a" ng-disabled="currentQuestion>=quiz.length" ng-click=getQuestion("next")>Next Question </button></div>
+   <div class = "col  balanced "><button class =" button-positive icon-left icon-left ion-arrow-left-a" ng-disabled="currentQuestion==1" ng-click=getQuestion("prev")>Prev Question</button></div>
+   
+   <div class = "col balanced" align="right" ><button class ="button-positive icon-right   ion-arrow-right-a" ng-disabled="currentQuestion>=quiz.length" ng-click=getQuestion("next")>Next Question </button></div>
 
   </div> 
  </div> 
@@ -86,6 +84,8 @@ border: 0px solid   black;
 	
 	  <a  ng-click=submitQuiz() class=" button button-positive  button-block icon-left ion-checkmark-circled " ng-if="mode!='postsubmit'" >Submit Test</a>
 	    <a  ng-click=goBack() class=" button button-positive  button-block icon-left ion-checkmark-circled " ng-if="mode=='postsubmit'" >Back to Result</a>
+	<button id="testResultsy-button15" class=" button button-royal  button-block icon-left ion-arrow-left-c " ng-Click="gotoTests()" >Back to Tests </button>	
+	
 	  <BR/>
 	  <BR/>
 	  
